@@ -1,10 +1,10 @@
-const path = require('path');
+const path = require("path");
 module.exports = {
   // 基本路径
-  publicPath: process.env.NODE_ENV === 'production' ? '' : './',
+  publicPath: process.env.NODE_ENV === "production" ? "" : "./",
 
   // 输出文件目录
-  outputDir: process.env.NODE_ENV === 'production' ? 'dist' : 'devdist',
+  outputDir: process.env.NODE_ENV === "production" ? "dist" : "devdist",
 
   // eslint-loader 是否在保存的时候检查
   lintOnSave: false,
@@ -25,13 +25,23 @@ module.exports = {
     // 是否开启 CSS source maps
     sourceMap: false,
     // css预设器配置项
-    loaderOptions: {},
-    requireModuleExtension: true // 启用 CSS modules for all css / pre-processor files.
+    loaderOptions: {
+      scss: {
+        // sass-loader version < 8
+        // data: `@import "./src/styles/main.scss";`         // 引入全局样式，配置样式主入口文件
+        // sass-loader version = 8
+        // prependData: `@import "./src/styles/main.scss";`
+        // sass-loader version >= 10
+        additionalData: `@import "./src/styles/main.scss";`,
+      },
+      // webpack4 之后，css-loader 默认使用了 css modules。关闭这里。
+      // requireModuleExtension: true // 启用 CSS modules for all css / pre-processor files.
+    },
   },
 
   // use thread-loader for babel & TS in production build
   // enabled by default if the machine has more than 1 cores
-  parallel: require('os').cpus().length > 1,
+  parallel: require("os").cpus().length > 1,
 
   /**
    *  PWA 插件相关配置,see https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa
@@ -40,8 +50,9 @@ module.exports = {
 
   // webpack-dev-server 相关配置
   devServer: {},
+
   /**
    * 第三方插件配置
    */
-  pluginOptions: {}
-}
+  pluginOptions: {},
+};
