@@ -1,22 +1,19 @@
-/* jshint esversion: 6 */
-
 import { createRouter, createWebHashHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+// import HomeView from "../views/HomeView.vue";
 
 const routes = [
+  // Home
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "Home", // 命名路由。这样我们就可以在任何组件中使用 $router.push({ name: 'Home' }) 来导航到这个路由，或者使用 <router-link :to="{ name: 'Home' }">Home</router-link> 来创建一个指向这个路由的链接
+    redirect: "Login", // 重定向到命名的路由 Login
   },
+
+  // Login
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/login",
+    name: "Login",
+    component: () => import("../views/account/Login.vue"),
   },
 ];
 
