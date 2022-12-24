@@ -1,4 +1,12 @@
+/* jshint esversion: 6 */
+
 const path = require("path");
+
+// // 自动按需引入  element-plus ui 组件
+// const AutoImport = require("unplugin-auto-import/webpack");
+// const Components = require("unplugin-vue-components/webpack");
+// const { ElementPlusResolver } = require("unplugin-vue-components/resolvers");
+
 module.exports = {
   // 基本路径
   publicPath: process.env.NODE_ENV === "production" ? "" : "./",
@@ -13,7 +21,16 @@ module.exports = {
    * webpack配置,see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
    **/
   chainWebpack: (config) => {},
-  configureWebpack: (config) => {},
+  configureWebpack: {
+    // plugins: [
+    //   AutoImport({
+    //     resolvers: [ElementPlusResolver()],
+    //   }),
+    //   Components({
+    //     resolvers: [ElementPlusResolver()],
+    //   }),
+    // ],
+  },
 
   // 生产环境是否生成 sourceMap 文件
   productionSourceMap: false,

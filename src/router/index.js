@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
