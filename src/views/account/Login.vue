@@ -3,32 +3,32 @@
     <div class="form-wrap">
       <ul class="manu-tab">
         <li
-            :class="{ current: current_menu === item.type }"
-            v-for="item in data.tab_manu"
-            :key="item.type"
-            @click="toggleMenu(item.type)"
+          :class="{ current: current_menu === item.type }"
+          v-for="item in tab_manu"
+          :key="item.type"
+          @click="toggleMenu(item.type)"
         >
           {{ item.label }}
         </li>
       </ul>
-      <el-form ref="form" :model="form">
+      <el-form>
         <el-form-item>
           <label class="form--label">用户名</label>
-          <el-input type="text"></el-input>
+          <el-input v-model="username"></el-input>
         </el-form-item>
         <el-form-item>
           <label class="form--label">密码</label>
-          <el-input type="password"></el-input>
+          <el-input type="password" v-model="password"></el-input>
         </el-form-item>
         <el-form-item v-if="current_menu === 'register'">
           <label class="form--label">确认密码</label>
-          <el-input type="password"></el-input>
+          <el-input type="password" v-model="confirm_password"></el-input>
         </el-form-item>
         <el-form-item>
           <label class="form--label">验证码</label>
           <el-row :gutter="10">
             <el-col :span="20">
-              <el-input></el-input>
+              <el-input v-model="code"></el-input>
             </el-col>
             <el-col :span="4">
               <el-button type="primary">获取验证码</el-button>
@@ -38,7 +38,7 @@
         <el-form-item>
           <label class="form--label"></label>
           <el-button type="primary" class="el-button-block" @click="submit"
-          >登录
+            >登录
           </el-button>
         </el-form-item>
       </el-form>
@@ -47,27 +47,32 @@
 </template>
 
 <script>
-import {reactive, ref} from "vue";
+import { reactive, toRefs } from "vue";
 
 export default {
   name: "login",
-  setup(props, context) {
-    // 必须使用 reactive 或 ref 方法，否则无法构造响应式数据
+  setup(props) {
+    // 必须使用 reactive 构造响应式数据（data本身）
     const data = reactive({
+      username: "",
+      password: "",
+      confirm_password: "",
+      code: "",
       tab_manu: [
-        {type: "login", label: "登录"},
-        {type: "register", label: "注册"},
+        { type: "login", label: "登录" },
+        { type: "register", label: "注册" },
       ],
+      current_menu: "login",
     });
-    const current_menu = ref(data.tab_manu[0].type);
+    // 使用 toRefs 批量将响应式数据data的所有属性转为响应式数据
+    const dataItem = toRefs(data);
     const toggleMenu = (type) => {
-      current_menu.value = type;
+      data.current_menu = type;
     };
 
     return {
-      data,
-      current_menu,
       toggleMenu,
+      ...dataItem, // 解包，将响应式数据data的所有属性展开
     };
   },
 };
