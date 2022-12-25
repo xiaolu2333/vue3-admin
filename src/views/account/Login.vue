@@ -2,7 +2,12 @@
   <div id="login">
     <div class="form-wrap">
       <ul class="manu-tab">
-        <li :class="{'current': current_menu === item.type}" v-for="item in data.tab_manu" :key="item.type">
+        <li
+          :class="{ current: current_menu === item.type }"
+          v-for="item in data.tab_manu"
+          :key="item.type"
+          @click="toggleMenu(item.type)"
+        >
           {{ item.label }}
         </li>
       </ul>
@@ -51,10 +56,14 @@ export default {
       ],
     });
     const current_menu = ref(data.tab_manu[0].type);
+    const toggleMenu = (type) => {
+      current_menu.value = type;
+    };
 
     return {
       data,
       current_menu,
+      toggleMenu,
     };
   },
 };
