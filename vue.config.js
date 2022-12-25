@@ -1,6 +1,7 @@
 /* jshint esversion: 6 */
 
 const path = require("path");
+const ElementPlus = require("unplugin-element-plus/webpack").default;
 
 // // 自动按需引入  element-plus ui 组件
 // const AutoImport = require("unplugin-auto-import/webpack");
@@ -22,14 +23,12 @@ module.exports = {
    **/
   chainWebpack: (config) => {},
   configureWebpack: {
-    // plugins: [
-    //   AutoImport({
-    //     resolvers: [ElementPlusResolver()],
-    //   }),
-    //   Components({
-    //     resolvers: [ElementPlusResolver()],
-    //   }),
-    // ],
+    plugins: [
+      // unplugin-element-plus 0.4.1 版本这样用，代替了之前的 ElementPlus()
+      require("unplugin-element-plus/webpack")({
+        // options
+      }),
+    ],
   },
 
   // 生产环境是否生成 sourceMap 文件
