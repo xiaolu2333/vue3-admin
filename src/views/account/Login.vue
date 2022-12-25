@@ -3,10 +3,10 @@
     <div class="form-wrap">
       <ul class="manu-tab">
         <li
-          :class="{ current: current_menu === item.type }"
-          v-for="item in data.tab_manu"
-          :key="item.type"
-          @click="toggleMenu(item.type)"
+            :class="{ current: current_menu === item.type }"
+            v-for="item in data.tab_manu"
+            :key="item.type"
+            @click="toggleMenu(item.type)"
         >
           {{ item.label }}
         </li>
@@ -18,6 +18,10 @@
         </el-form-item>
         <el-form-item>
           <label class="form--label">密码</label>
+          <el-input type="password"></el-input>
+        </el-form-item>
+        <el-form-item v-if="current_menu === 'register'">
+          <label class="form--label">确认密码</label>
           <el-input type="password"></el-input>
         </el-form-item>
         <el-form-item>
@@ -34,7 +38,7 @@
         <el-form-item>
           <label class="form--label"></label>
           <el-button type="primary" class="el-button-block" @click="submit"
-            >登录
+          >登录
           </el-button>
         </el-form-item>
       </el-form>
@@ -51,8 +55,8 @@ export default {
     // 必须使用 reactive 或 ref 方法，否则无法构造响应式数据
     const data = reactive({
       tab_manu: [
-        { type: "login", label: "登录" },
-        { type: "register", label: "注册" },
+        {type: "login", label: "登录"},
+        {type: "register", label: "注册"},
       ],
     });
     const current_menu = ref(data.tab_manu[0].type);
