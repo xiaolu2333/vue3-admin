@@ -3,32 +3,40 @@
     <div class="form-wrap">
       <ul class="manu-tab">
         <li
-          :class="{ current: current_menu === item.type }"
-          v-for="item in tab_manu"
+          :class="{ current: data.current_menu === item.type }"
+          v-for="item in data.tab_manu"
           :key="item.type"
-          @click="toggleMenu(item.type)"
+          @click="data.current_menu = item.type"
         >
           {{ item.label }}
         </li>
       </ul>
-      <el-form>
-        <el-form-item>
+      <!--通过 :rules="data.form_rules" 绑定表单验证规则-->
+      <el-form ref="form" :model="data.form" :rules="data.form_rules">
+        <!--prop 要与校验规则中的属性名一致-->
+        <el-form-item prop="username">
           <label class="form--label">用户名</label>
-          <el-input v-model="username"></el-input>
+          <el-input v-model="data.form.username"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="password">
           <label class="form--label">密码</label>
-          <el-input type="password" v-model="password"></el-input>
+          <el-input type="password" v-model="data.form.password"></el-input>
         </el-form-item>
-        <el-form-item v-if="current_menu === 'register'">
+        <el-form-item
+          prop="confirm_password"
+          v-if="data.current_menu === 'register'"
+        >
           <label class="form--label">确认密码</label>
-          <el-input type="password" v-model="confirm_password"></el-input>
+          <el-input
+            type="password"
+            v-model="data.form.confirm_password"
+          ></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="code">
           <label class="form--label">验证码</label>
           <el-row :gutter="10">
             <el-col :span="20">
-              <el-input v-model="code"></el-input>
+              <el-input v-model="data.form.code"></el-input>
             </el-col>
             <el-col :span="4">
               <el-button type="primary">获取验证码</el-button>
@@ -47,32 +55,43 @@
 </template>
 
 <script>
-import { reactive, toRefs } from "vue";
+import { reactive } from "vue";
 
 export default {
   name: "login",
   setup(props) {
     // 必须使用 reactive 构造响应式数据（data本身）
     const data = reactive({
-      username: "",
-      password: "",
-      confirm_password: "",
-      code: "",
+      form: {
+        username: "",
+        password: "",
+        confirm_password: "",
+        code: "",
+      },
+      // 表单验证规则
+      form_rules: {
+        // 校验用户名
+        username: [
+          // 第一条校验规则，在发生输入时触发
+          { required: true, message: "请输入用户名", trigger: "change" },
+          // 第二条校验规则，在输入不为空时触发
+          {
+            min: 3,
+            max: 5,
+            message: "长度在 3 到 5 个字符",
+            trigger: "change",
+          },
+        ],
+      },
       tab_manu: [
         { type: "login", label: "登录" },
         { type: "register", label: "注册" },
       ],
       current_menu: "login",
     });
-    // 使用 toRefs 批量将响应式数据data的所有属性转为响应式数据
-    const dataItem = toRefs(data);
-    const toggleMenu = (type) => {
-      data.current_menu = type;
-    };
 
     return {
-      toggleMenu,
-      ...dataItem, // 解包，将响应式数据data的所有属性展开
+      data,
     };
   },
 };
