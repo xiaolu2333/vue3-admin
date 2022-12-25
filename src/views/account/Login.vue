@@ -2,8 +2,9 @@
   <div id="login">
     <div class="form-wrap">
       <ul class="manu-tab">
-        <li class="current">登录</li>
-        <li>注册</li>
+        <li class="current" v-for="item in data.tab_manu" :key="item.type">
+          {{ item.label }}
+        </li>
       </ul>
       <el-form ref="form" :model="form">
         <el-form-item>
@@ -37,8 +38,23 @@
 </template>
 
 <script>
+import { reactive } from "vue";
+
 export default {
   name: "login",
+  setup(props, context) {
+    // 必须使用 reactive 或 ref 方法，否则无法构造响应式数据
+    const data = reactive({
+      tab_manu: [
+        { type: "login", label: "登录" },
+        { type: "register", label: "注册" },
+      ],
+    });
+
+    return {
+      data,
+    };
+  },
 };
 </script>
 
