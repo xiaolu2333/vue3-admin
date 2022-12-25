@@ -2,7 +2,7 @@
   <div id="login">
     <div class="form-wrap">
       <ul class="manu-tab">
-        <li class="current" v-for="item in data.tab_manu" :key="item.type">
+        <li :class="{'current': current_menu === item.type}" v-for="item in data.tab_manu" :key="item.type">
           {{ item.label }}
         </li>
       </ul>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import {reactive, ref} from "vue";
 
 export default {
   name: "login",
@@ -50,9 +50,11 @@ export default {
         { type: "register", label: "注册" },
       ],
     });
+    const current_menu = ref(data.tab_manu[0].type);
 
     return {
       data,
+      current_menu,
     };
   },
 };
