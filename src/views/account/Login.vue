@@ -39,7 +39,7 @@
               <el-input v-model="data.form.code"></el-input>
             </el-col>
             <el-col :span="4">
-              <el-button type="primary" @click="getCode">获取验证码</el-button>
+              <el-button type="primary" @click="handlerGetCode">获取验证码</el-button>
             </el-col>
           </el-row>
         </el-form-item>
@@ -55,41 +55,14 @@
 </template>
 
 <script>
-import { reactive, getCurrentInstance } from "vue";
+import { reactive } from "vue";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
+import { GetCode } from "@/api/common";
 
 export default {
   name: "login",
   setup(props) {
-    // 直接获取当前组件实例上下文
-    const currentInstance = getCurrentInstance();
-    // 获取全局配置的 $axios 对象
-    const { $axios } = currentInstance.appContext.config.globalProperties;
-    // 使用 $axios 对象的方法来请求验证码
-    const getCode = () => {
-      // 获取验证码 API 说明：http://apidoc.web-jshtml.cn/#/api
-      $axios
-        .post(
-          "http://v3.web-jshtml.cn/api/getCode/",
-          // 请求参数
-          {
-            username: "409019683@qq.com",
-            module: "login",
-          }
-        )
-        .then((res) => {
-          console.log(res);
-          /*
-          res.data: {
-              "message": "验证码发送成功。验证码：110631，小福利：https://item.jd.com/13509409.html",
-              "resCode": 0,
-              "data": 110631
-          }
-          */
-        });
-    };
-
     // 自定义用户名校验
     const validate_username_rules = (rule, value, callback) => {
       let regEmail = isEmail(value);
@@ -168,9 +141,22 @@ export default {
       current_menu: "login",
     });
 
+    // 使用封装好的公共API来获取验证码
+    const handlerGetCode = () => {
+      GetCode(
+        // 传入必要的请求参数
+        {
+          username: "409019683@qq.com",
+          module: "login", // login/register
+        }
+      ).then((res) => {
+        console.log(res);
+      });
+    };
+
     return {
       data,
-      getCode,
+      handlerGetCode,
     };
   },
 };
