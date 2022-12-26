@@ -55,13 +55,28 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import { reactive, getCurrentInstance } from "vue";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
 
 export default {
   name: "login",
   setup(props) {
+    // 直接获取当前组件实例上下文
+    const instance = getCurrentInstance();
+    // // 通过 ctx 对象获取当前组件实例上下文
+    // const { ctx } = getCurrentInstance();
+    // // 获取 proxy 对象获取当前组件实例上下文，更推荐。
+    // // 相对于 ctx 对象，proxy 对象在生产环境下仍能使用，且不会在部署项目时因 ctx 对象被压缩而导致报错。
+    // const { proxy } = getCurrentInstance();
+    // console.log(instance);
+    // console.log(ctx);
+    // console.log(proxy);
+    // 获取全局配置
+    const globalProperties = instance.appContext.config.globalProperties;
+    // 这里面有 $axios 对象
+    console.log(globalProperties);
+
     // 自定义用户名校验
     const validate_username_rules = (rule, value, callback) => {
       let regEmail = isEmail(value);
