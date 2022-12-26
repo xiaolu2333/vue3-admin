@@ -57,15 +57,17 @@
 <script>
 import { reactive } from "vue";
 
+import { isEmail, isPassword, isCode } from "@/utils/validate";
+
 export default {
   name: "login",
   setup(props) {
     // 自定义用户名校验
     const validate_username_rules = (rule, value, callback) => {
-      let regEmail = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+      let regEmail = isEmail(value);
       if (value === "") {
         callback(new Error("请输入邮箱"));
-      } else if (!regEmail.test(value)) {
+      } else if (!regEmail) {
         callback(new Error("邮箱格式不正确"));
       } else {
         callback();
@@ -73,10 +75,10 @@ export default {
     };
     // 自定义密码校验
     const validate_password_rules = (rule, value, callback) => {
-      let regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
+      let regPassword = isPassword(value);
       if (value === "") {
         callback(new Error("请输入密码"));
-      } else if (!regPassword.test(value)) {
+      } else if (!regPassword) {
         callback(new Error("请输入>=6并且<=20位的密码，包含数字、字母"));
       } else {
         callback();
@@ -88,12 +90,12 @@ export default {
       if (data.current_menu === "login") {
         callback();
       }
-      let regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
+      let regPassword = isPassword(value);
       // 获取“密码”
       const passwordValue = data.form.password;
       if (value === "") {
         callback(new Error("请输入密码"));
-      } else if (!regPassword.test(value)) {
+      } else if (!regPassword) {
         callback(new Error("请输入>=6并且<=20位的密码，包含数字、字母"));
       } else if (passwordValue && passwordValue !== value) {
         callback(new Error("两次密码不一致"));
@@ -103,10 +105,10 @@ export default {
     };
     // 自定义验证码校验
     const validate_code_rules = (rule, value, callback) => {
-      let regCode = /^[a-z0-9]{6}$/;
+      let regCode = isCode(value);
       if (value === "") {
         callback(new Error("请输入验证码"));
-      } else if (!regCode.test(value)) {
+      } else if (!regCode) {
         callback(new Error("请输入6位的验证码"));
       } else {
         callback();
