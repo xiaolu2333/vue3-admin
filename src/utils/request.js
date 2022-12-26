@@ -6,7 +6,7 @@ import axios from "axios";
 
 // 创建实例
 const service = axios.create({
-  baseURL: "http://v3.web-jshtml.cn/api", // api 的 base_url
+  baseURL: "/devApi", // api 的 base_url
   timeout: 5000, // 请求超时时间
 });
 
