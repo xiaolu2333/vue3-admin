@@ -60,6 +60,59 @@ import { reactive } from "vue";
 export default {
   name: "login",
   setup(props) {
+    // 自定义用户名校验
+    const validate_username_rules = (rule, value, callback) => {
+      let regEmail = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+      if (value === "") {
+        callback(new Error("请输入邮箱"));
+      } else if (!regEmail.test(value)) {
+        callback(new Error("邮箱格式不正确"));
+      } else {
+        callback();
+      }
+    };
+    // 自定义密码校验
+    const validate_password_rules = (rule, value, callback) => {
+      let regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else if (!regPassword.test(value)) {
+        callback(new Error("请输入>=6并且<=20位的密码，包含数字、字母"));
+      } else {
+        callback();
+      }
+    };
+    // 自定义确认密码校验
+    const validate_confirm_password_rules = (rule, value, callback) => {
+      // 如果是登录，不需要校验确认密码，默认通过
+      if (data.current_menu === "login") {
+        callback();
+      }
+      let regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
+      // 获取“密码”
+      const passwordValue = data.form.password;
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else if (!regPassword.test(value)) {
+        callback(new Error("请输入>=6并且<=20位的密码，包含数字、字母"));
+      } else if (passwordValue && passwordValue !== value) {
+        callback(new Error("两次密码不一致"));
+      } else {
+        callback();
+      }
+    };
+    // 自定义验证码校验
+    const validate_code_rules = (rule, value, callback) => {
+      let regCode = /^[a-z0-9]{6}$/;
+      if (value === "") {
+        callback(new Error("请输入验证码"));
+      } else if (!regCode.test(value)) {
+        callback(new Error("请输入6位的验证码"));
+      } else {
+        callback();
+      }
+    };
+
     // 必须使用 reactive 构造响应式数据（data本身）
     const data = reactive({
       form: {
@@ -70,18 +123,13 @@ export default {
       },
       // 表单验证规则
       form_rules: {
-        // 校验用户名
-        username: [
-          // 第一条校验规则，在发生输入时触发
-          { required: true, message: "请输入用户名", trigger: "change" },
-          // 第二条校验规则，在输入不为空时触发
-          {
-            min: 3,
-            max: 5,
-            message: "长度在 3 到 5 个字符",
-            trigger: "change",
-          },
+        // 使用自定义用户名校验规则
+        username: [{ validator: validate_username_rules, trigger: "change" }],
+        password: [{ validator: validate_password_rules, trigger: "change" }],
+        confirm_password: [
+          { validator: validate_confirm_password_rules, trigger: "change" },
         ],
+        code: [{ validator: validate_code_rules, trigger: "change" }],
       },
       tab_manu: [
         { type: "login", label: "登录" },
