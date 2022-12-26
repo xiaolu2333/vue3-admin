@@ -63,19 +63,22 @@ export default {
   name: "login",
   setup(props) {
     // 直接获取当前组件实例上下文
-    const instance = getCurrentInstance();
+    const currentInstance = getCurrentInstance();
     // // 通过 ctx 对象获取当前组件实例上下文
     // const { ctx } = getCurrentInstance();
     // // 获取 proxy 对象获取当前组件实例上下文，更推荐。
     // // 相对于 ctx 对象，proxy 对象在生产环境下仍能使用，且不会在部署项目时因 ctx 对象被压缩而导致报错。
     // const { proxy } = getCurrentInstance();
-    // console.log(instance);
+    // console.log(currentInstance);
     // console.log(ctx);
     // console.log(proxy);
     // 获取全局配置
-    const globalProperties = instance.appContext.config.globalProperties;
+    const globalProperties = currentInstance.appContext.config.globalProperties;
     // 这里面有 $axios 对象
     console.log(globalProperties);
+    // 通过getCurrentInstance方法获取当前实例，再根据当前实例找到全局实例对象appContext，进而拿到全局实例的config.globalProperties。
+    const { $axios } = currentInstance.appContext.config.globalProperties;
+    console.log($axios);
 
     // 自定义用户名校验
     const validate_username_rules = (rule, value, callback) => {
