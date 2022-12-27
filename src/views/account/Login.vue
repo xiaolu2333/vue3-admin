@@ -45,8 +45,12 @@
         </el-form-item>
         <el-form-item>
           <label class="form--label"></label>
-          <el-button type="primary" class="el-button-block" @click="submit"
-            >登录
+          <el-button
+            type="primary"
+            class="el-button-block"
+            disabled
+            @click="submit"
+            >{{ data.current_menu === "login" ? "登录" : "注册" }}
           </el-button>
         </el-form-item>
       </el-form>
@@ -55,7 +59,7 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import { getCurrentInstance, reactive } from "vue";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
 import { GetCode } from "@/api/common";
@@ -63,6 +67,10 @@ import { GetCode } from "@/api/common";
 export default {
   name: "login",
   setup(props) {
+    const instance = getCurrentInstance();
+    console.log(instance.appContext.config.globalProperties.$message);
+    const message = instance.appContext.config.globalProperties.$message;
+
     // 自定义用户名校验
     const validate_username_rules = (rule, value, callback) => {
       let regEmail = isEmail(value);
@@ -143,6 +151,39 @@ export default {
 
     // 使用封装好的公共API来获取验证码
     const handlerGetCode = () => {
+      const username = data.form.username;
+      const password = data.form.password;
+      const confirm_password = data.form.confirm_password;
+
+      // 校验用户名
+      if (!isEmail(username)) {
+        message.error({
+          message: "邮箱不能为空 或 格式不正确", // 提示信息
+          type: "error", // 提示主题类型，可选 success / warning / info / error
+          duration: 2000, // 显示时间，单位毫秒，默认 3000
+          showClose: true, // 是否显示关闭按钮，默认 false
+          center: true, // 文字是否居中，默认 false
+          dengerouslyUseHTMLString: false, // 是否将 message 属性作为 HTML 片段处理，默认 false
+        });
+        return false;
+      }
+      // 校验密码
+      if (!isPassword(password)) {
+        message.error({
+          message: "密码不能为空 或 格式不正确",
+          type: "error",
+        });
+        return false;
+      }
+      // 注册时，校验确认密码
+      if (data.current_menu === "register" && password !== confirm_password) {
+        message.error({
+          message: "两次密码不一致",
+          type: "error",
+        });
+        return false;
+      }
+
       GetCode(
         // 传入必要的请求参数
         {
