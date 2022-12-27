@@ -66,18 +66,16 @@ module.exports = {
 
   // webpack-dev-server 相关配置
   devServer: {
-    open: true, // 配置自动启动浏览器，在编译完成之后自动打开浏览器访问
+    open: false, // 配置自动启动浏览器，在编译完成之后自动打开浏览器访问
     host: "0.0.0.0", // 指定使用一个 host 让外界可访问。默认是 localhost
     port: 8080, // 端口地址 8080
     proxy: {
       // 配置跨域
-      "/devApi": {
-        target: "http://v3.web-jshtml.cn/api", // 必填。这里后台的地址模拟的;应该填写你们真实的后台接口
-        changeOrigin: true, // 必填。允许跨域。
-        ws: false, // 不启用websockets。
-        secure: false, // 不https接口。
+      [process.env.VUE_APP_API]: {
+        target: process.env.VUE_APP_DEV_TARGET, // 代理地址，这里设置的地址会代替axios中设置的baseURL
+        changeOrigin: true, // 是否跨域
         pathRewrite: {
-          "^/devApi": "", // 重写路径。这里理解成用"/devApi"代替target里面的地址，后面组件中我们调接口时直接用devApi代替即可。
+          [`^${process.env.VUE_APP_API}`]: "", // 重写接口
         },
       },
     },
