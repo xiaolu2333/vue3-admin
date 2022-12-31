@@ -35,13 +35,17 @@
         <el-form-item prop="code">
           <label class="form--label">验证码</label>
           <el-row :gutter="10">
-            <el-col :span="20">
+            <el-col :span="14">
               <el-input v-model="data.form.code"></el-input>
             </el-col>
-            <el-col :span="4">
-              <el-button type="primary" @click="handlerGetCode"
-                >获取验证码</el-button
-              >
+            <el-col :span="10">
+              <el-button
+                type="primary"
+                @click="handlerGetCode"
+                :disabled="data.code_btn_disabled"
+                :loading="data.code_btn_loading"
+                >{{ data.code_btn_text }}
+              </el-button>
             </el-col>
           </el-row>
         </el-form-item>
@@ -61,7 +65,7 @@
 </template>
 
 <script>
-import { getCurrentInstance, reactive } from "vue";
+import {getCurrentInstance, onBeforeUnmount, reactive} from "vue";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
 import { GetCode } from "@/api/common";
@@ -69,6 +73,7 @@ import { GetCode } from "@/api/common";
 export default {
   name: "login",
   setup(props) {
+    // 获取当前组件实例
     const instance = getCurrentInstance();
     const message = instance.appContext.config.globalProperties.$message;
 
@@ -127,6 +132,7 @@ export default {
 
     // 必须使用 reactive 构造响应式数据（data本身）
     const data = reactive({
+      // 表单数据
       form: {
         username: "",
         password: "",
@@ -143,18 +149,54 @@ export default {
         ],
         code: [{ validator: validate_code_rules, trigger: "change" }],
       },
+
+      // 表单tab切换
       tab_manu: [
         { type: "login", label: "登录" },
         { type: "register", label: "注册" },
       ],
+      // 当前tab
       current_menu: "login",
+
+      // 获取验证码时的按钮交互状态
+      code_btn_disabled: false, // 是否用验证码按钮
+      code_btn_loading: false, // 是否显示验证码加载状态
+      code_btn_text: "获取验证码", // 验证码按钮文本
+      code_btn_timer: null, // 验证码按钮倒计时
     });
 
+    // 验证码倒计时
+    const countDown = (time) => {
+      // 设置初始状态
+      let second = time || 60; // 倒计时60秒
+      data.code_btn_disabled = true; // 禁用按钮
+      data.code_btn_loading = false; // 隐藏加载状态
+      data.code_btn_text = `${second}秒后重新获取`; // 显示倒计时文本
+      // 判断是否存在定时器，存在则清除
+      if (data.code_btn_timer) {
+        clearInterval(data.code_btn_timer);
+      }
+      // 开启定时器后每秒更新按钮文本
+      data.code_btn_timer = setInterval(() => {
+        second--;
+        data.code_btn_text = `${second}秒后重新获取`;
+        // 倒计时结束后重置按钮状态
+        if (second <= 0) {
+          clearInterval(data.code_btn_timer);
+          data.code_btn_disabled = false; // 启用按钮
+          data.code_btn_text = "重新获取验证码";
+        }
+      }, 1000);
+    };
     // 使用封装好的公共API来获取验证码
     const handlerGetCode = () => {
+      // 表单数据
       const username = data.form.username;
       const password = data.form.password;
       const confirm_password = data.form.confirm_password;
+      // 验证码按钮交互状态
+      data.code_btn_loading = true;
+      data.code_btn_text = "验证码发送中...";
 
       // 校验用户名
       if (!isEmail(username)) {
@@ -190,19 +232,43 @@ export default {
         username: data.form.username, // "409019683@qq.com",
         module: "register", // login/register
       };
-      GetCode(requestData).then((res) => {
-        console.log(res.data);
-        const responseData = res.data;
-        // 根据返回的状态码，判断当前用户名已存在
-        if (responseData.resCode === 1024) {
-          message.error({
+      GetCode(requestData)
+        .then((res) => {
+          console.log(res.data);
+          const responseData = res.data;
+          // 根据返回的状态码，判断当前用户名已存在
+          if (responseData.resCode === 1024) {
+            message.error({
+              message: responseData.message,
+              type: "error",
+            });
+            return false;
+          }
+
+          // element-ui 提示框提示验证码
+          message.success({
             message: responseData.message,
-            type: "error",
+            type: "success",
+            duration: 4000,
           });
-          return false;
-        }
-      });
+          // 倒计时
+          countDown();
+        })
+        .catch((error) => {
+          console.log(error);
+          data.code_btn_loading = false;
+          data.code_btn_text = "获取验证码";
+        });
     };
+
+    // 销毁组件时清除定时器
+    onBeforeUnmount(() => {
+      clearInterval(data.code_btn_timer);
+      /* 为什么要消除定时器？
+      定时器会占用内存，所以在组件销毁时，需要清除定时器来释放内存。
+      如果用户在倒计时过程中，关闭了页面，那么定时器仍然会继续执行，这时就需要在组件销毁时，清除定时器
+      */
+    });
 
     return {
       data,
