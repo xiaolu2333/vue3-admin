@@ -68,7 +68,7 @@
 import {getCurrentInstance, onBeforeUnmount, reactive} from "vue";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
-import { GetCode } from "@/api/common";
+import { GetCode, ErrorHttp } from "@/api/common";
 
 export default {
   name: "login",
@@ -259,6 +259,18 @@ export default {
           data.code_btn_loading = false;
           data.code_btn_text = "获取验证码";
         });
+
+      // 错误请求测试
+      // ErrorHttp(requestData)
+      //   .then((res) => {
+      //     console.log(res);
+      //     countDown();
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //     data.code_btn_loading = false;
+      //     data.code_btn_text = "获取验证码";
+      //   });
     };
 
     // 销毁组件时清除定时器

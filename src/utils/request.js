@@ -3,6 +3,7 @@
 /* 封装 axios 拦截器 */
 
 import axios from "axios";
+import { ElMessage } from "element-plus";
 
 // 通过 process.env 来获取环境变量
 // console.log(process.env.NODE_ENV + "环境: " + process.env.VUE_APP_API);
@@ -35,17 +36,35 @@ service.interceptors.request.use(
 
 // 创建响应拦截器
 service.interceptors.response.use(
+  // 响应成功后回调
   function (response) {
     "use strict";
     // 对响应数据做点什么
     // 比如：根据响应状态码，做不同的响应处理
-    return response;
+    console.log(response);
+    const data = response.data;
+    if (data.resCode === 0) {
+      return Promise.resolve(data); // 返回接口相应成功的时的Promise对象
+    } else {
+      ElMessage.success(data.message);
+      return Promise.reject(data); // 返回接口响应的时的Promise对象
+    }
   },
+  // 响应失败后回调
   function (error) {
     "use strict";
     // 对响应错误做点什么
     // 比如：根据响应状态码，做不同的响应处理
-    return Promise.reject(error);
+    console.log(error);
+    const errorData = JSON.parse(error.request.response); // 将String类型的JSON对象转换为JSON对象
+    // 判断响应的后端数据中是否有message属性
+    if (errorData.message) {
+      ElMessage({
+        message: errorData.message,
+        type: "error",
+      });
+    }
+    return Promise.reject(errorData); // 返回接口响应失败的时的Promise对象
   }
 );
 
