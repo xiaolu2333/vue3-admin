@@ -39,7 +39,9 @@
               <el-input v-model="data.form.code"></el-input>
             </el-col>
             <el-col :span="4">
-              <el-button type="primary" @click="handlerGetCode">获取验证码</el-button>
+              <el-button type="primary" @click="handlerGetCode"
+                >获取验证码</el-button
+              >
             </el-col>
           </el-row>
         </el-form-item>
@@ -68,7 +70,6 @@ export default {
   name: "login",
   setup(props) {
     const instance = getCurrentInstance();
-    console.log(instance.appContext.config.globalProperties.$message);
     const message = instance.appContext.config.globalProperties.$message;
 
     // 自定义用户名校验
@@ -184,14 +185,22 @@ export default {
         return false;
       }
 
-      GetCode(
-        // 传入必要的请求参数
-        {
-          username: "409019683@qq.com",
-          module: "login", // login/register
+      // 注册用户
+      const requestData = {
+        username: data.form.username, // "409019683@qq.com",
+        module: "register", // login/register
+      };
+      GetCode(requestData).then((res) => {
+        console.log(res.data);
+        const responseData = res.data;
+        // 根据返回的状态码，判断当前用户名已存在
+        if (responseData.resCode === 1024) {
+          message.error({
+            message: responseData.message,
+            type: "error",
+          });
+          return false;
         }
-      ).then((res) => {
-        console.log(res);
       });
     };
 
