@@ -11,8 +11,9 @@
           {{ item.label }}
         </li>
       </ul>
+      <!--通过ref定义该表单的DOM引用，方便后面通过 $refs 来获取该表单的DOM-->
       <!--通过 :rules="data.form_rules" 绑定表单验证规则-->
-      <el-form ref="form" :model="data.form" :rules="data.form_rules">
+      <el-form ref="account_form" :model="data.form" :rules="data.form_rules">
         <!--prop 要与校验规则中的属性名一致-->
         <el-form-item prop="username">
           <label class="form--label">用户名</label>
@@ -55,7 +56,7 @@
             type="primary"
             class="el-button-block"
             :disabled="data.submit_btn_disabled"
-            @click="submit"
+            @click="submitForm"
             >{{ data.current_menu === "login" ? "登录" : "注册" }}
           </el-button>
         </el-form-item>
@@ -75,7 +76,9 @@ export default {
   setup(props) {
     // 获取当前组件实例
     const instance = getCurrentInstance();
+    // console.log(instance);
     const message = instance.appContext.config.globalProperties.$message;
+    const refs = instance.refs;
 
     // 自定义用户名校验
     const validate_username_rules = (rule, value, callback) => {
@@ -284,7 +287,6 @@ export default {
       //     data.code_btn_text = "获取验证码";
       //   });
     };
-
     // 销毁组件时清除定时器
     onBeforeUnmount(() => {
       clearInterval(data.code_btn_timer);
@@ -294,9 +296,22 @@ export default {
       */
     });
 
+    // 提交表单
+    const submitForm = () => {
+      refs.account_form.validate((valid) => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error validate!!");
+          return false;
+        }
+      });
+    };
+
     return {
       data,
       handlerGetCode,
+      submitForm,
     };
   },
 };
