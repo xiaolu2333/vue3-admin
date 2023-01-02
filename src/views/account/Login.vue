@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { getCurrentInstance, onBeforeUnmount, reactive } from "vue";
+import { getCurrentInstance, onBeforeUnmount, reactive, ref } from "vue";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
 import { GetCode, ErrorHttp } from "@/api/common";
@@ -78,7 +78,6 @@ export default {
     const instance = getCurrentInstance();
     // console.log(instance);
     const message = instance.appContext.config.globalProperties.$message;
-    const refs = instance.refs;
 
     // 自定义用户名校验
     const validate_username_rules = (rule, value, callback) => {
@@ -297,8 +296,9 @@ export default {
     });
 
     // 提交表单
+    const account_form = ref(null); // account_form 是一个 ref 对象，它的 current 属性指向真实的 DOM 元素，要与表单的 ref 属性一致绑定
     const submitForm = () => {
-      refs.account_form.validate((valid) => {
+      account_form.value.validate((valid) => {
         if (valid) {
           alert("submit!");
         } else {
@@ -312,6 +312,7 @@ export default {
       data,
       handlerGetCode,
       submitForm,
+      account_form,
     };
   },
 };
