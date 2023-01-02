@@ -54,7 +54,7 @@
           <el-button
             type="primary"
             class="el-button-block"
-            disabled
+            :disabled="data.submit_btn_disabled"
             @click="submit"
             >{{ data.current_menu === "login" ? "登录" : "注册" }}
           </el-button>
@@ -121,6 +121,10 @@ export default {
     // 自定义验证码校验
     const validate_code_rules = (rule, value, callback) => {
       let regCode = isCode(value);
+
+      // // 也能在输入验证码时激活“提交”按钮
+      // data.submit_btn_disabled = !regCode;
+
       if (value === "") {
         callback(new Error("请输入验证码"));
       } else if (!regCode) {
@@ -163,6 +167,9 @@ export default {
       code_btn_loading: false, // 是否显示验证码加载状态
       code_btn_text: "获取验证码", // 验证码按钮文本
       code_btn_timer: null, // 验证码按钮倒计时
+
+      // ”提交“按钮
+      submit_btn_disabled: true, // 是否启用”提交”按钮
     });
 
     // 验证码倒计时
@@ -237,6 +244,9 @@ export default {
           console.log(res);
           // 获取后端返回的数据
           const responseData = res; // 本来应该是 res.data，但是拦截器已经处理过了，它返回的就是 res.data，因此这里直接获取 then 回调方法中的 res
+
+          // 激活“提交”按钮
+          data.submit_btn_disabled = false;
 
           // 根据返回的状态码，判断当前用户名已存在
           if (responseData.resCode === 1024) {
