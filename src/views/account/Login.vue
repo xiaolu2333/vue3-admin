@@ -72,14 +72,14 @@ import sha1 from "js-sha1";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
 import { GetCode, ErrorHttp } from "@/api/common";
-import { Register } from "@/api/account";
+import { Login, Register } from "@/api/account";
 
 export default {
   name: "login",
   setup(props) {
     // 获取当前组件实例
     const instance = getCurrentInstance();
-    // console.log(instance);
+    console.log(instance);
     const message = instance.appContext.config.globalProperties.$message;
     const refs = instance.refs;
 
@@ -244,7 +244,7 @@ export default {
       // 注册用户
       const requestData = {
         username: data.form.username, // "409019683@qq.com",
-        module: "register", // login/register
+        module: data.current_menu, // login/register
       };
       GetCode(requestData)
         .then((res) => {
@@ -305,12 +305,8 @@ export default {
     const submitForm = () => {
       account_form.value.validate((valid) => {
         if (valid) {
-          alert("submit!");
-          if (data.current_menu === "register") {
-            register();
-            // // 判断当前是登录还是注册
-            // data.current_menu === "login" ? login() : register();
-          }
+          // 判断当前是登录还是注册
+          data.current_menu === "login" ? login() : register();
         } else {
           console.log("error validate!!");
           return false;
@@ -320,7 +316,8 @@ export default {
 
     // 重置表单
     const reset = () => {
-      refs.form.resetFields(); // resetFields() 方法用于重置表单，是 element-ui 的表单组件的内置方法，可直接调用。重置后，表单的值会恢复到初始值，并移除校验结果
+      // 重置表单
+      // refs.account_form.resetFields(); // resetFields() 方法用于重置表单，是 element-ui 的表单组件的内置方法，可直接调用。重置后，表单的值会恢复到初始值，并移除校验结果
       // 切换回登录模式
       data.current_menu = "login";
       // 重置表单后，清除定时器
@@ -350,6 +347,30 @@ export default {
             type: "success",
           });
           // 注册成功后，重置表单
+          reset();
+        })
+        .catch((error) => {
+          reset();
+          console.log(error);
+          data.submit_btn_loading = false;
+        });
+    };
+    /** 登录 */
+    const login = () => {
+      const requestData = {
+        username: data.form.username,
+        password: sha1(data.form.password),
+        code: data.form.code,
+      };
+      data.submit_btn_loading = true;
+      Login(requestData)
+        .then((res) => {
+          // console.log(res);
+          message({
+            message: res.message,
+            type: "success",
+          });
+          // 登录成功后，重置表单
           reset();
         })
         .catch((error) => {
