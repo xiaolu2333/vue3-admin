@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import {getCurrentInstance, onBeforeUnmount, reactive} from "vue";
+import { getCurrentInstance, onBeforeUnmount, reactive } from "vue";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
 import { GetCode, ErrorHttp } from "@/api/common";
@@ -234,8 +234,10 @@ export default {
       };
       GetCode(requestData)
         .then((res) => {
-          console.log(res.data);
-          const responseData = res.data;
+          console.log(res);
+          // 获取后端返回的数据
+          const responseData = res; // 本来应该是 res.data，但是拦截器已经处理过了，它返回的就是 res.data，因此这里直接获取 then 回调方法中的 res
+
           // 根据返回的状态码，判断当前用户名已存在
           if (responseData.resCode === 1024) {
             message.error({
