@@ -68,6 +68,7 @@
 
 <script>
 import { getCurrentInstance, onBeforeUnmount, reactive, ref } from "vue";
+import sha1 from "js-sha1";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
 import { GetCode, ErrorHttp } from "@/api/common";
@@ -337,7 +338,7 @@ export default {
     const register = () => {
       const requestData = {
         username: data.form.username,
-        password: data.form.password,
+        password: sha1(data.form.password), // sha1 加密密码
         code: data.form.code,
       };
       data.submit_btn_loading = true;
