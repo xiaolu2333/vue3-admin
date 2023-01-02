@@ -56,6 +56,7 @@
             type="primary"
             class="el-button-block"
             :disabled="data.submit_btn_disabled"
+            :loading="data.submit_btn_loading"
             @click="submitForm"
             >{{ data.current_menu === "login" ? "登录" : "注册" }}
           </el-button>
@@ -70,6 +71,7 @@ import { getCurrentInstance, onBeforeUnmount, reactive, ref } from "vue";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
 import { GetCode, ErrorHttp } from "@/api/common";
+import { Register } from "@/api/account";
 
 export default {
   name: "login",
@@ -78,6 +80,7 @@ export default {
     const instance = getCurrentInstance();
     // console.log(instance);
     const message = instance.appContext.config.globalProperties.$message;
+    const refs = instance.refs;
 
     // 自定义用户名校验
     const validate_username_rules = (rule, value, callback) => {
@@ -172,6 +175,7 @@ export default {
 
       // ”提交“按钮
       submit_btn_disabled: true, // 是否启用”提交”按钮
+      submit_btn_loading: false, // 是否显示”提交“按钮加载状态
     });
 
     // 验证码倒计时
@@ -197,7 +201,7 @@ export default {
         }
       }, 1000);
     };
-    // 使用封装好的公共API来获取验证码
+    /** 使用封装好的公共API来获取验证码 */
     const handlerGetCode = () => {
       // 表单数据
       const username = data.form.username;
@@ -295,17 +299,63 @@ export default {
       */
     });
 
-    // 提交表单
+    /** 提交表单 */
     const account_form = ref(null); // account_form 是一个 ref 对象，它的 current 属性指向真实的 DOM 元素，要与表单的 ref 属性一致绑定
     const submitForm = () => {
       account_form.value.validate((valid) => {
         if (valid) {
           alert("submit!");
+          if (data.current_menu === "register") {
+            register();
+            // // 判断当前是登录还是注册
+            // data.current_menu === "login" ? login() : register();
+          }
         } else {
           console.log("error validate!!");
           return false;
         }
       });
+    };
+
+    // 重置表单
+    const reset = () => {
+      refs.form.resetFields(); // resetFields() 方法用于重置表单，是 element-ui 的表单组件的内置方法，可直接调用。重置后，表单的值会恢复到初始值，并移除校验结果
+      // 切换回登录模式
+      data.current_menu = "login";
+      // 重置表单后，清除定时器
+      data.code_btn_timer && clearInterval(data.code_btn_timer);
+      // 重置表单后，重置验证码按钮的文本
+      data.code_btn_text = "获取验证码";
+      // 重置表单后，禁用验证码按钮
+      data.code_btn_disabled = false;
+      // 重置表单后，禁用“提交”按钮
+      data.submit_btn_disabled = true;
+      // 重置表单后，取消“提交”按钮的加载状态
+      data.submit_btn_loading = false;
+    };
+    /** 注册 */
+    const register = () => {
+      const requestData = {
+        username: data.form.username,
+        password: data.form.password,
+        code: data.form.code,
+      };
+      data.submit_btn_loading = true;
+      Register(requestData)
+        .then((res) => {
+          // console.log(res);
+          message({
+            message: res.message,
+            type: "success",
+          });
+          // 注册成功后，重置表单
+          reset();
+        })
+        .catch((error) => {
+          reset();
+          console.log(error);
+          data.submit_btn_loading = false;
+        });
     };
 
     return {

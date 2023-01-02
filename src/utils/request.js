@@ -41,7 +41,7 @@ service.interceptors.response.use(
     "use strict";
     // 对响应数据做点什么
     // 比如：根据响应状态码，做不同的响应处理
-    console.log(response);
+    // console.log(response);
     const data = response.data;
     if (data.resCode === 0) {
       return Promise.resolve(data); // 返回接口相应成功的时的Promise对象
