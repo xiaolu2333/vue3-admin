@@ -1,12 +1,6 @@
 /* jshint esversion: 6 */
 
 const path = require("path");
-const ElementPlus = require("unplugin-element-plus/webpack").default;
-
-// // 自动按需引入  element-plus ui 组件
-// const AutoImport = require("unplugin-auto-import/webpack");
-// const Components = require("unplugin-vue-components/webpack");
-// const { ElementPlusResolver } = require("unplugin-vue-components/resolvers");
 
 module.exports = {
   // 基本路径
@@ -34,25 +28,27 @@ module.exports = {
   // 生产环境是否生成 sourceMap 文件
   productionSourceMap: false,
 
+  // 不再使用抽取的 elementui.scss 文件，而是直接在 .vue 各自的 style 标签通过类选择器拉修改 element plus 组件的样式
   // css相关配置
   css: {
     // 是否使用css分离插件 ExtractTextPlugin
     extract: true,
     // 是否开启 CSS source maps
     sourceMap: false,
-    // css预设器配置项
-    loaderOptions: {
-      scss: {
-        // sass-loader version < 8
-        // data: `@import "./src/styles/main.scss";`         // 引入全局样式，配置样式主入口文件
-        // sass-loader version = 8
-        // prependData: `@import "./src/styles/main.scss";`
-        // sass-loader version >= 10
-        additionalData: `@import "./src/styles/main.scss";`,
-      },
-      // webpack4 之后，css-loader 默认使用了 css modules。关闭这里。
-      // requireModuleExtension: true // 启用 CSS modules for all css / pre-processor files.
-    },
+    // 不再使用抽取的 elementui.scss 文件，而是直接在 .vue 各自的 style 标签通过类选择器拉修改 element plus 组件的样式
+    // // css预设器配置项
+    // loaderOptions: {
+    //   scss: {
+    //     // sass-loader version < 8
+    //     // data: `@import "./src/styles/main.scss";`         // 引入全局样式，配置样式主入口文件
+    //     // sass-loader version = 8
+    //     // prependData: `@import "./src/styles/main.scss";`
+    //     // sass-loader version >= 10
+    //     additionalData: `@import "./src/styles/main.scss";`,
+    //   },
+    //   // webpack4 之后，css-loader 默认使用了 css modules。关闭这里。
+    //   // requireModuleExtension: true // 启用 CSS modules for all css / pre-processor files.
+    // },
   },
 
   // use thread-loader for babel & TS in production build

@@ -435,4 +435,9 @@ export default {
   color: #ffffff;
   font-size: 14px;
 }
+
+.el-button-block {
+  display: block;
+  width: 100%;
+}
 </style>

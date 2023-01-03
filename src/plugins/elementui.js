@@ -10,6 +10,10 @@ import {
   ElCol,
   ElRow,
   ElMessage,
+  ElContainer,
+  ElHeader,
+  ElAside,
+  ElMain,
 } from "element-plus";
 export default (app) => {
   "use strict";
@@ -21,4 +25,8 @@ export default (app) => {
   app.use(ElCol);
   app.use(ElRow);
   app.use(ElMessage);
+  app.use(ElContainer);
+  app.use(ElHeader);
+  app.use(ElAside);
+  app.use(ElMain);
 };
