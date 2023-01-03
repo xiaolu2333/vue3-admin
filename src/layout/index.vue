@@ -1,17 +1,26 @@
 <template>
   <el-container id="layout-container">
-    <el-aside id="layout-aside" width="250px">侧边栏菜单</el-aside>
+    <el-aside id="layout-aside" width="250px"><LayoutAside /></el-aside>
     <el-container>
-      <el-header id="layout-header" height="75px">头部信息</el-header>
-      <el-main id="layout-main">数据视图</el-main>
+      <el-header id="layout-header" height="75px"><LayoutHeader /></el-header>
+      <el-main id="layout-main"><LayoutMain /></el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
+import LayoutAside from "./components/Aside.vue";
+import LayoutHeader from "./components/Header.vue";
+import LayoutMain from "./components/Main.vue";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Layout",
+  components: {
+    LayoutAside,
+    LayoutHeader,
+    LayoutMain,
+  },
 };
 </script>
 
