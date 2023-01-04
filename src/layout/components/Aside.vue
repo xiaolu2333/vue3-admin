@@ -15,9 +15,15 @@
         </el-menu-item>
 
         <!--否则继续将子路由作为子级菜单进行渲染-->
-        <el-sub-menu v-else index="1">
-          <template #title>信息管理</template>
-          <el-menu-item index="1-1-1">信息列表</el-menu-item>
+        <el-sub-menu v-else :index="item.path">
+          <template #title>{{ item.meta && item.meta.title }}</template>
+          <template v-for="child in item.children" :key="child.path">
+            <template v-if="!child.hidden">
+              <el-menu-item :index="child.path">
+                {{ child.meta && child.meta.title }}
+              </el-menu-item>
+            </template>
+          </template>
         </el-sub-menu>
       </template>
     </template>

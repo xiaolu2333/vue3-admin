@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-// import HomeView from "../views/HomeView.vue";
 
 const routes = [
   // /
@@ -25,6 +24,16 @@ const routes = [
       title: "控制台",
     },
     component: () => import("../layout/index.vue"),
+    children: [
+      {
+        path: "/console",
+        name: "Console",
+        meta: {
+          title: "首页",
+        },
+        component: () => import("../views/console/Index.vue"),
+      },
+    ],
   },
 
   // News
@@ -32,9 +41,36 @@ const routes = [
     path: "/news",
     name: "News",
     meta: {
-      title: "新闻管理",
+      title: "信息管理",
     },
-    component: () => import("../layout/index.vue"),
+    component: () => import("../views/console/Index.vue"),
+    children: [
+      {
+        path: "/newsIndex",
+        name: "NewsIndex",
+        meta: {
+          title: "信息列表",
+        },
+        component: () => import("../views/news/Index.vue"),
+      },
+      {
+        path: "/newsCategory",
+        name: "NewsCategory",
+        meta: {
+          title: "信息分类",
+        },
+        component: () => import("../views/news/Category.vue"),
+      },
+      {
+        path: "/newsDetailed",
+        name: "NewsDetailed",
+        meta: {
+          title: "信息详情",
+        },
+        component: () => import("../views/news/Detailed.vue"),
+        hidden: true,
+      },
+    ],
   },
 
   // User
@@ -44,7 +80,17 @@ const routes = [
     meta: {
       title: "用户管理",
     },
-    component: () => import("../layout/index.vue"),
+    component: () => import("../views/console/Index.vue"),
+    children: [
+      {
+        path: "/userIndex",
+        name: "UserIndex",
+        meta: {
+          title: "用户列表",
+        },
+        component: () => import("../views/user/Index.vue"),
+      },
+    ],
   },
 ];
 
