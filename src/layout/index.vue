@@ -40,4 +40,8 @@ export default {
 #layout-main {
   background-color: #f5f5f5;
 }
+
+#layout-aside .el-menu {
+  border-right: none;
+}
 </style>

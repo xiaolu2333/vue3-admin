@@ -14,7 +14,10 @@ import {
   ElHeader,
   ElAside,
   ElMain,
+  ElMenu,
+  ElMenuItem,
 } from "element-plus";
+
 export default (app) => {
   "use strict";
   app.use(ElButton);
@@ -29,4 +32,6 @@ export default (app) => {
   app.use(ElHeader);
   app.use(ElAside);
   app.use(ElMain);
+  app.use(ElMenu);
+  app.use(ElMenuItem);
 };
