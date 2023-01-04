@@ -7,40 +7,73 @@
     text-color="#fd046"
     active-text-color="#fff"
   >
-    <!--二级菜单-->
-    <!--index 的值必须唯一-->
-    <el-menu-item index="1">
-      <template #title>控制台</template>
-    </el-menu-item>
-    <el-sub-menu index="1">
-      <template #title>信息管理</template>
-      <el-menu-item index="1-1-1">信息列表</el-menu-item>
-      <el-menu-item index="1-1-2">信息列表</el-menu-item>
-      <el-sub-menu index="1-1-3">
-        <template #title>信息管理</template>
-        <el-menu-item index="1-1-3-1">信息列表</el-menu-item>
-        <el-menu-item index="1-1-3-2">信息列表</el-menu-item>
-        <el-menu-item index="1-1-3-3">信息列表</el-menu-item>
-      </el-sub-menu>
-    </el-sub-menu>
-    <el-sub-menu index="2">
-      <template #title>信息管理</template>
-      <el-menu-item index="1-2-1">信息列表</el-menu-item>
-      <el-menu-item index="1-2-2">信息列表</el-menu-item>
-      <el-menu-item index="1-2-3">信息列表</el-menu-item>
-    </el-sub-menu>
-    <el-sub-menu index="3">
-      <template #title>信息管理</template>
-      <el-menu-item index="1-3-1">信息列表</el-menu-item>
-      <el-menu-item index="1-3-2">信息列表</el-menu-item>
-      <el-menu-item index="1-3-3">信息列表</el-menu-item>
-    </el-sub-menu>
+    <template v-for="item in routers" :key="item.path">
+      <template v-if="!item.hidden">
+        <!--如果路由没有子路由，则作为一级菜单被渲染-->
+        <el-menu-item v-if="!item.children" :index="item.path">
+          <template #title>{{ item.meta && item.meta.title }}</template>
+        </el-menu-item>
+
+        <!--否则继续将子路由作为子级菜单进行渲染-->
+        <el-sub-menu v-else index="1">
+          <template #title>信息管理</template>
+          <el-menu-item index="1-1-1">信息列表</el-menu-item>
+        </el-sub-menu>
+      </template>
+    </template>
   </el-menu>
 </template>
 
 <script>
+// 导入 vue-router 路由实例对象
+import { useRouter } from "vue-router";
+
 export default {
   name: "LayoutAside",
+  setup() {
+    console.log(useRouter());
+
+    // // 获取路由实例对象的配置项方式一
+    // console.log(useRouter().getRoutes());
+
+    // 获取路由实例对象的配置项方式二
+    const { options } = useRouter();
+    const routers = options.routes;
+    /* routers 对象结构
+    [
+        {
+            "path": "/",
+            "name": "Home",
+            "meta": {
+                "title": "控制台"
+            }
+        },
+        {
+            "path": "/news",
+            "name": "News",
+            "meta": {
+                "title": "信息管理"
+            }
+        },
+        {
+            "path": "/user",
+            "name": "User",
+            "meta": {
+                "title": "用户管理"
+            }
+        },
+        {
+            "path": "/login",
+            "name": "Login"
+        }
+    ]
+    */
+    console.log(routers);
+
+    return {
+      routers,
+    };
+  },
 };
 </script>
 
