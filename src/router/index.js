@@ -23,7 +23,7 @@ const routes = [
     meta: {
       title: "控制台",
     },
-    component: () => import("../layout/index.vue"),
+    component: () => import("../layout/Index.vue"),
     children: [
       {
         path: "/console",
