@@ -23,4 +23,12 @@ import ElementUI from "@/plugins/elementui";
 //   app.component(key, component);
 // }
 
-app.use(store).use(router).use(ElementUI).mount("#app");
+// 全局注册 SvgIcon 组件
+import SvgIcon from "@/components/svgIcon/Index.vue";
+
+app
+  .component("svg-icon", SvgIcon)
+  .use(store)
+  .use(router)
+  .use(ElementUI)
+  .mount("#app");
