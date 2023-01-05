@@ -25,6 +25,8 @@ import ElementUI from "@/plugins/elementui";
 
 // 全局注册 SvgIcon 组件
 import SvgIcon from "@/components/svgIcon/Index.vue";
+// 批量导入 .svg 文件
+import "@/components/svgIcon/svg.js";
 
 app
   .component("svg-icon", SvgIcon)

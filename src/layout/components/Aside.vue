@@ -46,8 +46,8 @@ import { useRouter } from "vue-router";
 export default {
   name: "LayoutAside",
   setup() {
-    // 获取路由实例对象的配置项
-    console.log(useRouter());
+    // // 获取路由实例对象的配置项
+    // console.log(useRouter());
     // // 方式一
     // console.log(useRouter().getRoutes());
     // 方式二
@@ -82,7 +82,7 @@ export default {
         }
     ]
     */
-    console.log(routers);
+    // console.log(routers);
 
     // 判断一级路由是否只有一个子路由，如果只有一个子路由，则将该子路由作为一级路由渲染
     const hasOnlyOneChild = (children) => {
@@ -94,7 +94,7 @@ export default {
         // 简化 return item.hidden ? false : true;
         return !item.hidden;
       });
-      console.log(filterChildren);
+      // console.log(filterChildren);
 
       // 如果过滤后的子路由只有一个，则返回该子路由
       // return filterChildren.length === 1 ? filterChildren[0] : false;
