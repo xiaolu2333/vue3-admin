@@ -42,9 +42,11 @@
 <script>
 // 导入 vue-router 路由实例对象
 import { useRouter } from "vue-router";
+import SvgIcon from "@/components/svgIcon/Index.vue";
 
 export default {
   name: "LayoutAside",
+  components: { SvgIcon },
   setup() {
     // // 获取路由实例对象的配置项
     // console.log(useRouter());

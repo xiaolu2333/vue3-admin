@@ -15,7 +15,17 @@ module.exports = {
   /** vue3.0内置了webpack所有东西，
    * webpack配置,see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
    **/
-  chainWebpack: (config) => {},
+  chainWebpack: (config) => {
+    const svgRule = config.module.rule("svg"); // 默认svg规则
+    svgRule.uses.clear(); // 清除已有的loader规则,如果不这样做会添加在此loader之后，导致svg图标不能显示
+    svgRule
+      .use("svg-sprite-loader") // 注册svg新的loader处理器
+      .loader("svg-sprite-loader") // 载入包
+      .options({
+        symbolId: "icon-[name]", // 定义 symbol 元素的 id
+        include: ["./src/components/svgIcon/icon"], // 包含的文件夹
+      });
+  },
   configureWebpack: {
     plugins: [
       // unplugin-element-plus 0.4.1 版本这样用，代替了之前的 ElementPlus()
