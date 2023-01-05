@@ -34,7 +34,7 @@ export default {
 }
 
 #layout-header {
-  background-color: #52a1f4;
+  background-color: #344a5f;
 }
 
 #layout-main {

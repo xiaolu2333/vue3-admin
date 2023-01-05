@@ -16,6 +16,7 @@ import {
   ElMain,
   ElMenu,
   ElMenuItem,
+  ElIcon,
 } from "element-plus";
 
 export default (app) => {
@@ -34,4 +35,5 @@ export default (app) => {
   app.use(ElMain);
   app.use(ElMenu);
   app.use(ElMenuItem);
+  app.use(ElIcon);
 };
