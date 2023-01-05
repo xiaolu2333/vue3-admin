@@ -1,9 +1,11 @@
 <template>
+  <!--添加 router 属性以激活菜单，将 :index 属性的值作为路径进行跳转-->
   <el-menu
     default-active="1"
     background-color="#344a5f"
     text-color="#fff"
     active-text-color="#ffffff"
+    router
   >
     <template v-for="item in routers" :key="item.path">
       <template v-if="!item.hidden">
@@ -26,9 +28,9 @@
               {{ item.meta && item.meta.title }}
             </template>
             <template v-for="child in item.children" :key="child.path">
-              <el-menu-item v-if="!child.hidden" :index="child.path">{{
-                child.meta && child.meta.title
-              }}</el-menu-item>
+              <el-menu-item v-if="!child.hidden" :index="child.path">
+                {{ child.meta && child.meta.title }}
+              </el-menu-item>
             </template>
           </el-sub-menu>
         </template>

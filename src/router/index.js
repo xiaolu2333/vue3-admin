@@ -36,38 +36,38 @@ const routes = [
     ],
   },
 
-  // News
+  // Info
   {
-    path: "/news",
-    name: "News",
+    path: "/info",
+    name: "Info",
     meta: {
       title: "信息管理",
     },
-    component: () => import("../views/console/Index.vue"),
+    component: () => import("../layout/Index.vue"),
     children: [
       {
-        path: "/newsIndex",
+        path: "/infoIndex",
         name: "NewsIndex",
         meta: {
           title: "信息列表",
         },
-        component: () => import("../views/news/Index.vue"),
+        component: () => import("../views/info/Index.vue"),
       },
       {
-        path: "/newsCategory",
+        path: "/infoCategory",
         name: "NewsCategory",
         meta: {
           title: "信息分类",
         },
-        component: () => import("../views/news/Category.vue"),
+        component: () => import("../views/info/Category.vue"),
       },
       {
-        path: "/newsDetailed",
+        path: "/infoDetailed",
         name: "NewsDetailed",
         meta: {
           title: "信息详情",
         },
-        component: () => import("../views/news/Detailed.vue"),
+        component: () => import("../views/info/Detailed.vue"),
         hidden: true,
       },
     ],
@@ -80,7 +80,7 @@ const routes = [
     meta: {
       title: "用户管理",
     },
-    component: () => import("../views/console/Index.vue"),
+    component: () => import("../layout/Index.vue"),
     children: [
       {
         path: "/userIndex",

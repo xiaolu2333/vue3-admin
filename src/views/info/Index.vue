@@ -1,10 +1,10 @@
 <template>
-  <div>console index</div>
+  <div>info index</div>
 </template>
 
 <script>
 export default {
-  name: "UserIndex",
+  name: "NewsIndex",
 };
 </script>
 

@@ -1,5 +1,11 @@
-<template></template>
+<template>
+  <div>user index</div>
+</template>
 
-<script></script>
+<script>
+export default {
+  name: "UserIndex",
+};
+</script>
 
 <style lang="scss" scoped></style>
