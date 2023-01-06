@@ -406,7 +406,7 @@ export default {
   transform: translate(-50%, -50%); // 位移，相对于自身宽高的 50%
   width: 400px;
   padding: 100px 20px; // 100px top and bottom, 20px left and right
-  background-color: #a2cdf9;
+  background-color: #344a5f;
   border-radius: 5px; // 圆角
 }
 
@@ -424,7 +424,7 @@ export default {
     &.current {
       // &表示当前元素。设置当前选中的li元素的样式
       background-color: #fff;
-      color: #409eff;
+      color: #344a5f;
     }
   }
 }

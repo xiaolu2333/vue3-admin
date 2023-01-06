@@ -8,12 +8,12 @@
 // // 局部注册 icon 图标
 // import { AddLocation } from "@element-plus/icons-vue";
 
-// 载入全局 svg 图标
-import SvgIcon from "@/components/svgIcon/Index.vue";
+// // 载入全局 svg 图标
+// import SvgIcon from "@/components/svgIcon/Index.vue";
 
 export default {
   name: "UserIndex",
-  components: { SvgIcon },
+  // components: { SvgIcon },
   // // 局部手动注册 icon 图标需要手动载入图标组件
   // components: {
   //   AddLocation,

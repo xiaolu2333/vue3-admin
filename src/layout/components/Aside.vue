@@ -12,6 +12,7 @@
         <!-- 一级菜单 -->
         <template v-if="hasOnlyOneChild(item.children)">
           <el-menu-item :index="item.children[0].path">
+            <svg-icon></svg-icon>
             <template #title>
               {{ item.children[0].meta && item.children[0].meta.title }}
             </template>
@@ -25,6 +26,7 @@
             :index="item.path"
           >
             <template #title>
+              <svg-icon></svg-icon>
               {{ item.meta && item.meta.title }}
             </template>
             <template v-for="child in item.children" :key="child.path">

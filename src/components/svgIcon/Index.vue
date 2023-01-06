@@ -1,5 +1,7 @@
 <template>
-  <div>全局组件</div>
+  <svg class="svg-class">
+    <use href="#icon-home"></use>
+  </svg>
 </template>
 
 <script>
@@ -8,4 +10,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.svg-class {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+</style>

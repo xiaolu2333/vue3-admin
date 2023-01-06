@@ -16,15 +16,61 @@ module.exports = {
    * webpack配置,see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
    **/
   chainWebpack: (config) => {
-    const svgRule = config.module.rule("svg"); // 默认svg规则
-    svgRule.uses.clear(); // 清除已有的loader规则,如果不这样做会添加在此loader之后，导致svg图标不能显示
-    svgRule
-      .use("svg-sprite-loader") // 注册svg新的loader处理器
+    // // 先执行 vue inspect > output.js 查看 webpack 中 svg 的默认配置
+    // /* config.module.rule('svg') */
+    // {
+    //   test: /\.(svg)(\?.*)?$/,
+    //   type: 'asset/resource',
+    //   generator: {
+    //     filename: 'img/[name].[hash:8][ext]'
+    //   }
+    // },
+
+    // 修改默认的 svg 配置
+    config.module
+      .rule("svg")
+      .exclude.add(path.resolve(__dirname, "./src/components/svgIcon/icon")) // 添加排除目录
+      .end(); // 一定要加上 end()，否则会报错，因为 exclude 是一个链式操作，需要结束
+    // 使用 svg-sprite-loader 处理 svg
+    config.module
+      .rule("icons")
+      .test(/\.svg$/) // 匹配 svg 文件
+      .include.add(path.resolve(__dirname, "./src/components/svgIcon/icon")) // 添加 include 目录
+      .end() // 一定要加上 end()，否则会报错，因为 include 是一个链式操作，需要结束
+      .use("svg-sprite-loader") // 使用 svg-sprite-loader
       .loader("svg-sprite-loader") // 载入包
-      .options({
-        symbolId: "icon-[name]", // 定义 symbol 元素的 id
-        include: ["./src/components/svgIcon/icon"], // 包含的文件夹
-      });
+      .options({ symbolId: "icon-[name]" }) // 配置参数，指定 symbolId 的名称，这里的 icon-[name] 会与 src/components/svgIcon/Index.vue 中 use 的 href="#icon-home" 对应
+      .end(); // 一定要加上 end()，否则会报错，因为 use 是一个链式操作，需要结束
+    // 上面配置的结果：
+    //
+    //  /* config.module.rule('svg') */
+    //  {
+    //    test: /\.(svg)(\?.*)?$/,
+    //    type: 'asset/resource',
+    //    generator: {
+    //      filename: 'img/[name].[hash:8][ext]'
+    //    },
+    //    exclude: [
+    //      '/home/dfl/learn/vue3/vue3-admin/src/components/svgIcon/icon'
+    //    ]
+    //  },
+    //  ...
+    //  /* config.module.rule('icons') */
+    //  {
+    //     test: /\.svg$/,
+    //     include: [
+    //       '/home/dfl/learn/vue3/vue3-admin/src/components/svgIcon/icon'
+    //     ],
+    //     use: [
+    //       /* config.module.rule('icons').use('svg-sprite-loader') */
+    //       {
+    //         loader: 'svg-sprite-loader',
+    //         options: {
+    //           symbolId: 'icon-[name]'
+    //         }
+    //       }
+    //     ]
+    //   }
   },
   configureWebpack: {
     plugins: [
