@@ -22,6 +22,7 @@ const routes = [
     name: "Home", // 命名路由。这样我们就可以在任何组件中使用 $router.push({ name: 'Home' }) 来导航到这个路由，或者使用 <router-link :to="{ name: 'Home' }">Home</router-link> 来创建一个指向这个路由的链接
     meta: {
       title: "控制台",
+      icon: "home",
     },
     component: () => import("../layout/Index.vue"),
     children: [
@@ -42,6 +43,7 @@ const routes = [
     name: "Info",
     meta: {
       title: "信息管理",
+      icon: "information",
     },
     component: () => import("../layout/Index.vue"),
     children: [
@@ -79,6 +81,7 @@ const routes = [
     name: "User",
     meta: {
       title: "用户管理",
+      icon: "user",
     },
     component: () => import("../layout/Index.vue"),
     children: [

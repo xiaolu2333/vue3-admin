@@ -2,3 +2,13 @@
   display: block;
   width: 100%;
 }
+
+#layout-aside .el-menu {
+  border-right: none;
+}
+
+.aside-menu-svg {
+  margin-right: 5px;
+  margin-top: -2px;
+  font-size: 18px;
+}

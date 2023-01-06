@@ -79,7 +79,7 @@ export default {
   setup(props) {
     // 获取当前组件实例
     const instance = getCurrentInstance();
-    console.log(instance);
+    // console.log(instance);
     const message = instance.appContext.config.globalProperties.$message;
     const refs = instance.refs;
 

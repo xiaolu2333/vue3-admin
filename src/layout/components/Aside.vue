@@ -12,7 +12,10 @@
         <!-- 一级菜单 -->
         <template v-if="hasOnlyOneChild(item.children)">
           <el-menu-item :index="item.children[0].path">
-            <svg-icon></svg-icon>
+            <svg-icon
+              :icon-name="item.children[0].meta.icon"
+              class-name="aside-menu-svg"
+            ></svg-icon>
             <template #title>
               {{ item.children[0].meta && item.children[0].meta.title }}
             </template>
@@ -26,7 +29,10 @@
             :index="item.path"
           >
             <template #title>
-              <svg-icon></svg-icon>
+              <svg-icon
+                :icon-name="item.meta.icon"
+                class-name="aside-menu-svg"
+              ></svg-icon>
               {{ item.meta && item.meta.title }}
             </template>
             <template v-for="child in item.children" :key="child.path">
@@ -44,68 +50,31 @@
 <script>
 // 导入 vue-router 路由实例对象
 import { useRouter } from "vue-router";
+
 import SvgIcon from "@/components/svgIcon/Index.vue";
 
 export default {
   name: "LayoutAside",
   components: { SvgIcon },
   setup() {
-    // // 获取路由实例对象的配置项
-    // console.log(useRouter());
-    // // 方式一
-    // console.log(useRouter().getRoutes());
-    // 方式二
+    // 获取路由实例对象的配置项
     const { options } = useRouter();
     const routers = options.routes;
-    /* routers 对象结构
-    [
-        {
-            "path": "/",
-            "name": "Home",
-            "meta": {
-                "title": "控制台"
-            }
-        },
-        {
-            "path": "/news",
-            "name": "News",
-            "meta": {
-                "title": "信息管理"
-            }
-        },
-        {
-            "path": "/user",
-            "name": "User",
-            "meta": {
-                "title": "用户管理"
-            }
-        },
-        {
-            "path": "/login",
-            "name": "Login"
-        }
-    ]
-    */
-    // console.log(routers);
 
     // 判断一级路由是否只有一个子路由，如果只有一个子路由，则将该子路由作为一级路由渲染
     const hasOnlyOneChild = (children) => {
-      // return item.children && item.children.length === 1;
       // 不存在子路由
       if (!children) return false;
       // 过滤路由中的 hidden 属性为 true 的路由
       const filterChildren = children.filter((item) => {
-        // 简化 return item.hidden ? false : true;
-        return !item.hidden;
+        return item.hidden ? false : true;
       });
-      // console.log(filterChildren);
 
-      // 如果过滤后的子路由只有一个，则返回该子路由
-      // return filterChildren.length === 1 ? filterChildren[0] : false;
+      // 如果过滤后的子路由只有一个，则返回 true
       if (filterChildren.length === 1) {
-        return filterChildren[0];
+        return true;
       }
-
+      // 否则返回 false
       return false;
     };
 
@@ -117,4 +86,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.aside-menu-svg {
+  margin-right: 5px;
+  margin-top: -2px;
+  font-size: 18px;
+}
+</style>
