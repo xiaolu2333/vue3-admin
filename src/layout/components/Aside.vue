@@ -1,7 +1,7 @@
 <template>
   <!--添加 router 属性以激活菜单，将 :index 属性的值作为路径进行跳转-->
   <el-menu
-    default-active="1"
+    :default-active="$route.path"
     background-color="#344a5f"
     text-color="#fff"
     active-text-color="#ffffff"
@@ -77,6 +77,16 @@ export default {
       // 否则返回 false
       return false;
     };
+
+    // 将 path 与 el-menu 的 index 属性进行绑定（采用方案一）
+    // 方案一：直接在模板中使用 $route.path
+    // :default-active="$route.path"
+    // // 方案二：使用 useRoute 获取当前路由对象的 path 属性，并通过 computed 计算属性返回
+    // const { path } = useRoute();
+    // const currentPath = computed(() => {
+    //   console.log("path:", path);
+    //   return path;
+    // });
 
     return {
       routers,
