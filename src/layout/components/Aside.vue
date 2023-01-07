@@ -13,7 +13,7 @@
         <template v-if="hasOnlyOneChild(item.children)">
           <el-menu-item :index="item.children[0].path">
             <svg-icon
-              :icon-name="item.children[0].meta.icon"
+              :icon-name="item.meta.icon"
               class-name="aside-menu-svg"
             ></svg-icon>
             <template #title>
