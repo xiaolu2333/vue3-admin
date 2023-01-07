@@ -9,7 +9,7 @@
   >
     <template v-for="item in routers" :key="item.path">
       <template v-if="!item.hidden">
-        <!-- 一级菜单 -->
+        <!-- 只有一个二级菜单的一级菜单 -->
         <template v-if="hasOnlyOneChild(item.children)">
           <el-menu-item :index="item.children[0].path">
             <svg-icon
@@ -21,8 +21,7 @@
             </template>
           </el-menu-item>
         </template>
-
-        <!-- 子级菜单 -->
+        <!-- 有多个二级菜单的一级菜单 -->
         <template v-else>
           <el-sub-menu
             v-if="item.children && item.children.length > 0"
@@ -35,6 +34,7 @@
               ></svg-icon>
               {{ item.meta && item.meta.title }}
             </template>
+            <!-- 子级菜单 -->
             <template v-for="child in item.children" :key="child.path">
               <el-menu-item v-if="!child.hidden" :index="child.path">
                 {{ child.meta && child.meta.title }}
@@ -86,7 +86,21 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+// 选中的菜单项会被 elementplus 添加 is-active class
+.is-active {
+  background-color: #3a8ee6 !important;
+}
+
+// 被展开的菜单项会被 elementplus 添加 is-opened class
+// 有多个二级菜单的一级菜单展开后 class="el-sub-menu is-active is-opened"
+//.el-sub-menu.is-active.is-opened{
+.is-opened{
+  .el-sub-menu__title {
+    background-color: #f56c6c;
+  }
+}
+
 .aside-menu-svg {
   margin-right: 5px;
   margin-top: -2px;
