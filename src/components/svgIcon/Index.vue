@@ -26,7 +26,7 @@ export default {
     // 使用 props 参数拼接 svg 图标的 class 属性名
     const svgClassName = ref(props.className);
 
-    console.log("iconName", props.iconName);
+    // console.log("iconName", props.iconName);
     // 使用 computed 计算属性，拼接 use 元素的 href 属性值
     const svgIconHref = computed(() => {
       return `#icon-${props.iconName}`;

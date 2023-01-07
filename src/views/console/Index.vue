@@ -1,6 +1,6 @@
 <template>
   <div>console index</div>
-  <svg-icon></svg-icon>
+  <svg-icon :icon-name="icon"></svg-icon>
   <!--<el-icon :size="20" color="black"><AddLocation /></el-icon>-->
 </template>
 
@@ -11,6 +11,8 @@
 // // 载入全局 svg 图标
 // import SvgIcon from "@/components/svgIcon/Index.vue";
 
+import { ref } from "vue";
+
 export default {
   name: "UserIndex",
   // components: { SvgIcon },
@@ -18,6 +20,18 @@ export default {
   // components: {
   //   AddLocation,
   // },
+
+  setup(props) {
+    const icon = ref("home");
+    // console.log(icon);
+    setTimeout(() => {
+      icon.value = "user";
+    }, 2000);
+
+    return {
+      icon,
+    };
+  },
 };
 </script>
 
