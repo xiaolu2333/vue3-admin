@@ -1,4 +1,8 @@
 <template>
+  <div class="logo-container">
+    <!--<img :src="logo" alt="" />-->
+    <img class="logo" src="../../assets/images/logo.png" alt="管理后台logo" />
+  </div>
   <!--添加 router 属性以激活菜单，将 :index 属性的值作为路径进行跳转-->
   <el-menu
     :default-active="$route.path"
@@ -88,15 +92,29 @@ export default {
     //   return path;
     // });
 
+    // // @ 表示 src 目录，会通过 require() 导入资源，为了防止打包后因为解释错误而报错，就使用相对路径来引入图片
+    // const data = reactive({
+    //   logo: require("@/assets/images/logo.png"),
+    // });
+
     return {
       routers,
       hasOnlyOneChild,
+      // ...toRefs(data), // 将 data 中的各个数据转换为响应式数据
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.logo {
+  padding: 20px;
+  border-bottom: 1px solid #2d4153;
+  img {
+    margin: auto;
+  }
+}
+
 // 选中的菜单项会被 elementplus 添加 is-active class
 .is-active {
   background-color: #3a8ee6 !important;
