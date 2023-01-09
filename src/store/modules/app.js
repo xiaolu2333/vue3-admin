@@ -1,5 +1,6 @@
 /* jshint esversion: 6 */
 
+// 本模块的 state 状态数据：
 const state = {
   count: 100,
 };
