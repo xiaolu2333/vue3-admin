@@ -3,8 +3,19 @@
 // 本模块的 state 状态数据：
 const state = {
   count: 100,
+  text: "Hello Vuex",
 };
-const getters = {};
+
+// 在这里可计算有的状态而不影响原始状态
+const getters = {
+  getCount: (state) => {
+    return state.count + 10;
+  },
+
+  getText: (state) => {
+    return state.text + "!";
+  },
+};
 const mutations = {};
 const actions = {};
 

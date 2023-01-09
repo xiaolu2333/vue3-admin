@@ -18,12 +18,9 @@ export default {
     }, 2000);
 
     // 模块化后获取 vuex store
-    // 方式一：赋值
     const store = useStore();
-    console.log(store.state.app.count);
-    // 方式二：解构
-    const { state } = useStore();
-    console.log(state.app.count);
+    console.log("原始状态：", store.state.app.count);
+    console.log("getter 计算后的结果：", store.getters["app/getCount"]);
 
     return {
       icon,
