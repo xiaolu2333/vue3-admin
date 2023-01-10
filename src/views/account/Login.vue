@@ -68,6 +68,7 @@
 
 <script>
 import { getCurrentInstance, onBeforeUnmount, reactive, ref } from "vue";
+import { useStore } from "vuex";
 import sha1 from "js-sha1";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
@@ -377,6 +378,21 @@ export default {
           reset();
           console.log(error);
           data.submit_btn_loading = false;
+        });
+
+      const store = useStore();
+      store.dispatch("app/LoginAction", requestData)
+        .then((res) => {
+          console.log(res);
+          message({
+            message: res.message,
+            type: "success",
+          });
+          reset()
+        })
+        .catch((error) => {
+          reset()
+          console.log(error);
         });
     };
 

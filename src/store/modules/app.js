@@ -1,6 +1,8 @@
 /* jshint esversion: 6 */
 
 // 本模块的 state 状态数据：
+import { Login } from "@/api/account";
+
 const state = {
   count: 100,
   text: "Hello Vuex",
@@ -39,6 +41,19 @@ const actions = {
     console.log(context);
     // 2，因此可以调用 context.commit 提交一个 mutation 来间接修改状态，或者通过 context.state 和 context.getters 来获取 state 和 getters。
     context.commit("SET_TEXT");
+  },
+
+  LoginAction(context, responseData) {
+    return new Promise((resolve, reject) => {
+      // 调用登录接口
+      Login(responseData)
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   },
 };
 
