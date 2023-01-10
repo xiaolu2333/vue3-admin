@@ -16,7 +16,17 @@ const getters = {
     return state.text + "!";
   },
 };
-const mutations = {};
+
+// 用于改变 state 状态的方法
+const mutations = {
+  SET_COUNT: (state, payload) => {
+    state.count = payload;
+  },
+
+  SET_TEXT: (state) => {
+    state.text = "Hello World!";
+  },
+};
 const actions = {};
 
 export default {

@@ -20,7 +20,8 @@ export default {
     // 模块化后获取 vuex store
     const store = useStore();
     console.log("原始状态：", store.state.app.count);
-    console.log("getter 计算后的结果：", store.getters["app/getCount"]);
+    store.commit("app/SET_COUNT", 0); // 提交 mutation 中的状态修改动作来修改状态。
+    console.log("更新后的状态：", store.state.app.count);
 
     return {
       icon,
