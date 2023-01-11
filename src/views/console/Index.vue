@@ -25,6 +25,26 @@ export default {
     // store.dispatch("app/update_count", 1); // 通过 action 中的状态修改动作需要通过 store.dispatch 方法触发（有模块化的，还必须指定模块名称）
     // console.log("新状态：", store.state.app.count);
 
+    // 获取 sessionStore 对象
+    const sessionStore = window.sessionStorage;
+    // 在 sessionStore 中存储 JSON 数据
+    sessionStore.setItem(
+      "user",
+      JSON.stringify({ name: "zhangsan", age: 18, sex: "男" })
+    );
+    // 从 sessionStore 中获取 JSON 数据
+    const user = JSON.parse(sessionStore.getItem("user"));
+    console.log(user);
+    // 从 sessionStore 中删除 JSON 数据
+    sessionStore.removeItem("user");
+    // 在 sessionStore 中存储 Array 数据
+    sessionStore.setItem("currentUser", JSON.stringify(["zhangsan", "lisi"]));
+    // 从 sessionStore 中获取 Array 数据
+    const currentUser = JSON.parse(sessionStore.getItem("currentUser"));
+    console.log("currentUser:", currentUser);
+    // 从 sessionStore 中删除 Array 数据
+    sessionStore.removeItem("currentUser");
+
     return {
       icon,
     };
