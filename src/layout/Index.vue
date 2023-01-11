@@ -1,6 +1,8 @@
 <template>
   <el-container id="layout-container">
-    <el-aside id="layout-aside" width="250px"><LayoutAside /></el-aside>
+    <el-aside id="layout-aside" :width="collapse === true ? '70px' : '250px'">
+      <LayoutAside />
+    </el-aside>
     <el-container>
       <el-header id="layout-header" height="75px"><LayoutHeader /></el-header>
       <el-main id="layout-main"><LayoutMain /></el-main>
@@ -9,6 +11,9 @@
 </template>
 
 <script>
+import { computed } from "vue";
+import store from "@/store";
+
 import LayoutAside from "./components/Aside.vue";
 import LayoutHeader from "./components/Header.vue";
 import LayoutMain from "./components/Main.vue";
@@ -20,6 +25,13 @@ export default {
     LayoutAside,
     LayoutHeader,
     LayoutMain,
+  },
+
+  setup() {
+    const collapse = computed(() => store.state.app.collapse);
+    return {
+      collapse,
+    };
   },
 };
 </script>
