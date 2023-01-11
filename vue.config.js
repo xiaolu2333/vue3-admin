@@ -91,20 +91,19 @@ module.exports = {
     extract: true,
     // 是否开启 CSS source maps
     sourceMap: false,
-    // 不再使用抽取的 elementui.scss 文件，而是直接在 .vue 各自的 style 标签通过类选择器拉修改 element plus 组件的样式
-    // // css预设器配置项
-    // loaderOptions: {
-    //   scss: {
-    //     // sass-loader version < 8
-    //     // data: `@import "./src/styles/main.scss";`         // 引入全局样式，配置样式主入口文件
-    //     // sass-loader version = 8
-    //     // prependData: `@import "./src/styles/main.scss";`
-    //     // sass-loader version >= 10
-    //     additionalData: `@import "./src/styles/main.scss";`,
-    //   },
-    //   // webpack4 之后，css-loader 默认使用了 css modules。关闭这里。
-    //   // requireModuleExtension: true // 启用 CSS modules for all css / pre-processor files.
-    // },
+    // css预设器配置项
+    loaderOptions: {
+      scss: {
+        // sass-loader version < 8
+        // data: `@import "./src/styles/main.scss";`         // 引入全局样式，配置样式主入口文件
+        // sass-loader version = 8
+        // prependData: `@import "./src/styles/main.scss";`
+        // sass-loader version >= 10
+        additionalData: `@import "./src/styles/main.scss";`,
+      },
+      // webpack4 之后，css-loader 默认使用了 css modules。关闭这里。
+      // requireModuleExtension: true // 启用 CSS modules for all css / pre-processor files.
+    },
   },
 
   // use thread-loader for babel & TS in production build

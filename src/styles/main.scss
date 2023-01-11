@@ -1,7 +1,9 @@
+@import "./sassConfig.scss";
 @import "./elementui.scss";
 
-// 导入重置后的浏览器默认样式
-@import "./normalize.scss";
+// 这里会和elementui.scss冲突
+//// 导入重置后的浏览器默认样式
+//@import "./normalize.scss";
 
 body {
   //background-color: rgba(167, 66, 185, 0.86);
