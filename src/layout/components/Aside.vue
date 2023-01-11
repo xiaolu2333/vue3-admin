@@ -1,6 +1,6 @@
 <template>
   <div class="logo-container">
-    <img class="logo" src="../../assets/images/logo.png" alt="管理后台logo" />
+    <img class="logo" :src="logo" alt="管理后台logo" />
   </div>
   <el-menu
     :collapse="collapse"
@@ -94,7 +94,11 @@ export default {
 
     const store = useStore();
     const data = reactive({
-      logo: require("@/assets/images/logo.png"), // @ 表示 src 目录，会通过 require() 导入资源，为了防止打包后因为解释错误而报错，就使用相对路径来引入图片
+      logo: computed(() => {
+        return store.state.app.collapse
+          ? require("@/assets/images/logo-min.png")
+          : require("@/assets/images/logo.png");
+      }),
       collapse: computed(() => store.state.app.collapse), // 侧边栏是否折叠，依赖于使用 computed 计算属性监听的 vuex store 中的 collapse 属性
     });
 
@@ -114,25 +118,5 @@ export default {
   img {
     margin: auto;
   }
-}
-
-// 选中的菜单项会被 elementplus 添加 is-active class
-.is-active {
-  background-color: #3a8ee6 !important;
-}
-
-// 被展开的菜单项会被 elementplus 添加 is-opened class
-// 有多个二级菜单的一级菜单展开后 class="el-sub-menu is-active is-opened"
-//.el-sub-menu.is-active.is-opened{
-.is-opened{
-  .el-sub-menu__title {
-    background-color: #f56c6c;
-  }
-}
-
-.aside-menu-svg {
-  margin-right: 5px;
-  margin-top: -2px;
-  font-size: 18px;
 }
 </style>

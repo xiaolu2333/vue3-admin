@@ -5,6 +5,7 @@
 
 #layout-aside .el-menu {
   border-right: none;
+  margin-left: 10px;
 }
 
 // 选中的菜单项会被 elementplus 添加 is-active class
@@ -19,12 +20,6 @@
   .el-sub-menu__title {
     background-color: #f56c6c;
   }
-}
-
-.aside-menu-svg {
-  margin-right: 5px;
-  margin-top: -2px;
-  font-size: 18px;
 }
 
 .aside-menu-svg {

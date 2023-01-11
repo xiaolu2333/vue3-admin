@@ -1,6 +1,6 @@
 <template>
   <el-container id="layout-container">
-    <el-aside id="layout-aside" :width="collapse === true ? '70px' : '250px'">
+    <el-aside id="layout-aside" :width="collapse === true ? '80px' : '240px'">
       <LayoutAside />
     </el-aside>
     <el-container>
@@ -43,6 +43,7 @@ export default {
 
 #layout-aside {
   background-color: #344a5f;
+  @include webkit(transition, all 0.3s ease 0s);
 }
 
 #layout-header {
