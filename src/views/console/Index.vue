@@ -25,29 +25,6 @@ export default {
     // store.dispatch("app/update_count", 1); // 通过 action 中的状态修改动作需要通过 store.dispatch 方法触发（有模块化的，还必须指定模块名称）
     // console.log("新状态：", store.state.app.count);
 
-    // 获取 localStorage 对象
-    const localStorage = window.localStorage;
-    // 在 localStorage 中存储 JSON 数据
-    localStorage.setItem("user", JSON.stringify({ name: "zhangsan", age: 18 }));
-    // 从 localStorage 中获取 JSON 数据
-    const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user);
-    // 从 localStorage 中删除 JSON 数据
-    localStorage.removeItem("user");
-    // 在 localStorage 中存储 Array 数据
-    localStorage.setItem(
-      "users",
-      JSON.stringify([
-        { name: "zhangsan", age: 18 },
-        { name: "lisi", age: 20 },
-      ])
-    );
-    // 从 localStorage 中获取 Array 数据
-    const users = JSON.parse(localStorage.getItem("users"));
-    console.log(users);
-    // 从 localStorage 中删除 Array 数据
-    localStorage.removeItem("users");
-
     return {
       icon,
     };

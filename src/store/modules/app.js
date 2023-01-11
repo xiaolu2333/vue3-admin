@@ -4,7 +4,8 @@
 import { Login } from "@/api/account";
 
 const state = {
-  collapse: false, // 导航栏收缩状态
+  // 从 sessionStorage 中获取侧边栏的折叠状态，如果没有则默认为 false 不折叠
+  collapse: JSON.parse(sessionStorage.getItem("aside-collapse")) || false,
   // count: 100,
   // text: "Hello Vuex",
 };
@@ -25,6 +26,8 @@ const mutations = {
   // 设置菜单收展状态
   SET_ASIDE_COLLAPSE(state) {
     state.collapse = !state.collapse;
+    // 在更新状态后，将状态保存到本地 sessionStorage 存储中
+    sessionStorage.setItem("aside-collapse", JSON.stringify(state.collapse));
   },
 
   // SET_COUNT: (state, payload) => {
