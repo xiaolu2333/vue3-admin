@@ -5,6 +5,7 @@
   </div>
   <!--添加 router 属性以激活菜单，将 :index 属性的值作为路径进行跳转-->
   <el-menu
+    :collapse="collapse"
     :default-active="$route.path"
     background-color="#344a5f"
     text-color="#fff"
@@ -54,8 +55,10 @@
 <script>
 // 导入 vue-router 路由实例对象
 import { useRouter } from "vue-router";
+import { reactive, toRefs, computed } from "vue";
 
 import SvgIcon from "@/components/svgIcon/Index.vue";
+import { useStore } from "vuex";
 
 export default {
   name: "LayoutAside",
@@ -92,15 +95,16 @@ export default {
     //   return path;
     // });
 
-    // // @ 表示 src 目录，会通过 require() 导入资源，为了防止打包后因为解释错误而报错，就使用相对路径来引入图片
-    // const data = reactive({
-    //   logo: require("@/assets/images/logo.png"),
-    // });
+    const store = useStore();
+    const data = reactive({
+      logo: require("@/assets/images/logo.png"), // @ 表示 src 目录，会通过 require() 导入资源，为了防止打包后因为解释错误而报错，就使用相对路径来引入图片
+      collapse: computed(() => store.state.app.collapse), // 侧边栏是否折叠，依赖于使用 computed 计算属性监听的 vuex store 中的 collapse 属性
+    });
 
     return {
       routers,
       hasOnlyOneChild,
-      // ...toRefs(data), // 将 data 中的各个数据转换为响应式数据
+      ...toRefs(data), // 将 data 中的各个数据转换为响应式数据
     };
   },
 };
