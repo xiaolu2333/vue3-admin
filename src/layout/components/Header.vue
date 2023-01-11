@@ -2,7 +2,7 @@
   <div class="header-wrap">
     <!--左侧-->
     <div class="wrap">
-      <span class="menu-btn">
+      <span class="menu-btn" @click="switchAsideCollapse">
         <!--iconName是 svg 文件名，className是 svg 样式类名-->
         <svg-icon iconName="menuBtn" className="icon-menu-svg"></svg-icon>
       </span>
@@ -23,11 +23,22 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
 import SvgIcon from "@/components/svgIcon/Index.vue";
 
 export default {
   name: "LayoutHeader",
   components: { SvgIcon },
+  setup() {
+    const store = useStore();
+    const switchAsideCollapse = () => {
+      store.commit("app/SET_ASIDE_COLLAPSE");
+    };
+
+    return {
+      switchAsideCollapse,
+    };
+  },
 };
 </script>
 

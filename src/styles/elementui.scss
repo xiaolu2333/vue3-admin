@@ -7,6 +7,26 @@
   border-right: none;
 }
 
+// 选中的菜单项会被 elementplus 添加 is-active class
+.is-active {
+  background-color: #3a8ee6 !important;
+}
+
+// 被展开的菜单项会被 elementplus 添加 is-opened class
+// 有多个二级菜单的一级菜单展开后 class="el-sub-menu is-active is-opened"
+//.el-sub-menu.is-active.is-opened{
+.is-opened{
+  .el-sub-menu__title {
+    background-color: #f56c6c;
+  }
+}
+
+.aside-menu-svg {
+  margin-right: 5px;
+  margin-top: -2px;
+  font-size: 18px;
+}
+
 .aside-menu-svg {
   margin-right: 5px;
   margin-top: -2px;

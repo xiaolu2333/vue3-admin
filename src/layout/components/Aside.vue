@@ -1,9 +1,7 @@
 <template>
   <div class="logo-container">
-    <!--<img :src="logo" alt="" />-->
     <img class="logo" src="../../assets/images/logo.png" alt="管理后台logo" />
   </div>
-  <!--添加 router 属性以激活菜单，将 :index 属性的值作为路径进行跳转-->
   <el-menu
     :collapse="collapse"
     :default-active="$route.path"
@@ -37,9 +35,8 @@
                 :icon-name="item.meta.icon"
                 class-name="aside-menu-svg"
               ></svg-icon>
-              {{ item.meta && item.meta.title }}
+              <span>{{ item.meta && item.meta.title }}</span>
             </template>
-            <!-- 子级菜单 -->
             <template v-for="child in item.children" :key="child.path">
               <el-menu-item v-if="!child.hidden" :index="child.path">
                 {{ child.meta && child.meta.title }}
@@ -53,12 +50,12 @@
 </template>
 
 <script>
+import { reactive, toRefs, computed } from "vue";
 // 导入 vue-router 路由实例对象
 import { useRouter } from "vue-router";
-import { reactive, toRefs, computed } from "vue";
+import { useStore } from "vuex";
 
 import SvgIcon from "@/components/svgIcon/Index.vue";
-import { useStore } from "vuex";
 
 export default {
   name: "LayoutAside",
