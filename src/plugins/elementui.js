@@ -17,6 +17,7 @@ import {
   ElMenu,
   ElMenuItem,
   ElIcon,
+  ElMessageBox,
 } from "element-plus";
 
 export default (app) => {
@@ -36,4 +37,5 @@ export default (app) => {
   app.use(ElMenu);
   app.use(ElMenuItem);
   app.use(ElIcon);
+  app.use(ElMessageBox);
 };

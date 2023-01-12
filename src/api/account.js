@@ -29,3 +29,16 @@ export function Login(data) {
     data,
   });
 }
+
+/**
+ * 用户登出
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ * @description 调用此接口，会删除后端数据库中的token
+ */
+export function Logout() {
+  "use strict";
+  return service.request({
+    method: "post",
+    url: "/logout/",
+  });
+}

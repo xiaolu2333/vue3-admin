@@ -1,8 +1,8 @@
 /* jshint esversion: 6 */
 
 // 本模块的 state 状态数据：
-import { Login } from "@/api/account";
-import { getToken, getUserName, setToken, setUserName } from "@/utils/cookies";
+import { Login, Logout } from "@/api/account";
+import { getToken, getUserName, removeToken, removeUserName, setToken, setUserName } from "@/utils/cookies";
 
 const state = {
   // 从 sessionStorage 中获取侧边栏的折叠状态，如果没有则默认为 false 不折叠
@@ -78,6 +78,25 @@ const actions = {
           // 将 token 和 username 保存到 state 中
           context.commit("SET_TOKEN", data.token);
           context.commit("SET_USERNAME", data.username);
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
+
+  // 退出登录
+  LogoutAction({ commit }) {
+    return new Promise((resolve, reject) => {
+      Logout()
+        .then((response) => {
+          // 清除 cookies 中的 token 和 username
+          removeToken();
+          removeUserName();
+          // 清除 token 和 username
+          commit("SET_TOKEN", "");
+          commit("SET_USERNAME", "");
           resolve(response);
         })
         .catch((error) => {
