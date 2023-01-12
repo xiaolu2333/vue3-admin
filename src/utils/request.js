@@ -4,8 +4,14 @@
 
 import axios from "axios";
 import { ElMessage } from "element-plus";
+import router from "@/router";
 
-import { getToken, getUserName } from "@/utils/cookies";
+import {
+  getToken,
+  getUserName,
+  removeToken,
+  removeUserName,
+} from "@/utils/cookies";
 
 // 通过 process.env 来获取环境变量
 // console.log(process.env.NODE_ENV + "环境: " + process.env.VUE_APP_API);
@@ -73,6 +79,16 @@ service.interceptors.response.use(
         type: "error",
       });
     }
+
+    // token 过期，退出登录
+    if (errorData.resCode === 1010) {
+      router.replace({
+        name: "Login",
+      });
+      removeToken();
+      removeUserName();
+    }
+
     return Promise.reject(errorData); // 返回接口响应失败的时的Promise对象
   }
 );
