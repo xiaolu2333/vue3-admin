@@ -5,6 +5,9 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
+// 导入全局路由守卫
+import "./router/permit";
+
 // // 全局完整导入 element-plus ui
 // import ElementPlus from "element-plus";
 // import "element-plus/dist/index.css";
