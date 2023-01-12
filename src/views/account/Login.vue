@@ -69,11 +69,13 @@
 <script>
 import { getCurrentInstance, onBeforeUnmount, reactive, ref } from "vue";
 import { useStore } from "vuex";
+import router from "@/router";
 import sha1 from "js-sha1";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
 import { GetCode, ErrorHttp } from "@/api/common";
 import { Login, Register } from "@/api/account";
+import { getToken } from "@/utils/cookies";
 
 export default {
   name: "login",
@@ -83,6 +85,7 @@ export default {
     // console.log(instance);
     const message = instance.appContext.config.globalProperties.$message;
     const refs = instance.refs;
+    const store = useStore();
 
     // 自定义用户名校验
     const validate_username_rules = (rule, value, callback) => {
@@ -371,6 +374,17 @@ export default {
             message: res.message,
             type: "success",
           });
+
+          // 将服务器返回的 token 保存到 state 与 cookie 中
+          store.commit("app/SET_TOKEN", res.data.token);
+          store.commit("app/SET_USERNAME", res.data.username);
+          /* 为什么要同时保到 cookie 与 state 中？
+           * 保持 cookie 中的 token 与 state 中的 token 一致，这样在刷新页面时，就可以从 cookie 中获取 token，然后将 token 保存到 state 中，这样就不会丢失 token 了。
+           */
+
+          // 登陆成功后，通过编程式导航跳转到首页
+          router.push({ path: "/console" });
+
           // 登录成功后，重置表单
           reset();
         })
@@ -380,18 +394,18 @@ export default {
           data.submit_btn_loading = false;
         });
 
-      const store = useStore();
-      store.dispatch("app/LoginAction", requestData)
+      store
+        .dispatch("app/LoginAction", requestData)
         .then((res) => {
           console.log(res);
           message({
             message: res.message,
             type: "success",
           });
-          reset()
+          reset();
         })
         .catch((error) => {
-          reset()
+          reset();
           console.log(error);
         });
     };

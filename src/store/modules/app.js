@@ -2,10 +2,13 @@
 
 // 本模块的 state 状态数据：
 import { Login } from "@/api/account";
+import { setToken, setUserName } from "@/utils/cookies";
 
 const state = {
   // 从 sessionStorage 中获取侧边栏的折叠状态，如果没有则默认为 false 不折叠
   collapse: JSON.parse(sessionStorage.getItem("aside-collapse")) || false,
+  token: "",
+  username: "",
   // count: 100,
   // text: "Hello Vuex",
 };
@@ -30,6 +33,19 @@ const mutations = {
     sessionStorage.setItem("aside-collapse", JSON.stringify(state.collapse));
   },
 
+  // 设置 token
+  SET_TOKEN(state, value) {
+    // 将 token 保存到 state 中
+    state.token = value;
+    // 将 token 保存到 cookie 中
+    value && setToken(value);
+  },
+  // 设置 username
+  SET_USERNAME(state, value) {
+    state.username = value;
+    value && setUserName(value);
+  },
+
   // SET_COUNT: (state, payload) => {
   //   state.count = payload;
   // },
@@ -51,19 +67,19 @@ const actions = {
   //   // 2，因此可以调用 context.commit 提交一个 mutation 来间接修改状态，或者通过 context.state 和 context.getters 来获取 state 和 getters。
   //   context.commit("SET_TEXT");
   // },
-  //
-  // LoginAction(context, responseData) {
-  //   return new Promise((resolve, reject) => {
-  //     // 调用登录接口
-  //     Login(responseData)
-  //       .then((response) => {
-  //         resolve(response);
-  //       })
-  //       .catch((error) => {
-  //         reject(error);
-  //       });
-  //   });
-  // },
+
+  LoginAction(context, responseData) {
+    return new Promise((resolve, reject) => {
+      // 调用登录接口
+      Login(responseData)
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
 };
 
 export default {
