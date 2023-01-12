@@ -5,6 +5,8 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
 
+import { getToken, getUserName } from "@/utils/cookies";
+
 // 通过 process.env 来获取环境变量
 // console.log(process.env.NODE_ENV + "环境: " + process.env.VUE_APP_API);
 // 执行 npm run serve 时，默认读取 .env.development 中的环境变量，输出 development环境: /devApi
@@ -23,7 +25,14 @@ service.interceptors.request.use(
   function (config) {
     "use strict";
     // 在发送请求之前做些什么
-    // 比如：添加token，添加请求头等
+    // 在请求头中添加 token 数据
+    if (getToken()) {
+      config.headers["Token"] = getToken();
+    }
+    if (getUserName()) {
+      config.headers["UserName"] = getUserName();
+    }
+
     return config;
   },
   function (error) {
