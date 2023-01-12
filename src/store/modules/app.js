@@ -2,13 +2,13 @@
 
 // 本模块的 state 状态数据：
 import { Login } from "@/api/account";
-import { setToken, setUserName } from "@/utils/cookies";
+import { getToken, getUserName, setToken, setUserName } from "@/utils/cookies";
 
 const state = {
   // 从 sessionStorage 中获取侧边栏的折叠状态，如果没有则默认为 false 不折叠
   collapse: JSON.parse(sessionStorage.getItem("aside-collapse")) || false,
-  token: "",
-  username: "",
+  token: "" || getToken(), // 刷新页面后，从 cookies 中获取 token
+  username: "" || getUserName(),
   // count: 100,
   // text: "Hello Vuex",
 };

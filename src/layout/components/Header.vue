@@ -11,8 +11,8 @@
     <div class="wrap">
       <div class="user-info">
         <div class="face-info">
-          <img src="../../assets/images/logo-min.png" alt="用户头像" />
-          <span class="user-name">409619083@qq.com</span>
+          <img src="../../assets/images/logo-min.png" :alt="username" />
+          <span class="user-name">{{ username }}</span>
         </div>
         <div class="logout">
           <svg-icon iconName="logout" className="icon-logout-svg"></svg-icon>
@@ -24,6 +24,7 @@
 
 <script>
 import { useStore } from "vuex";
+import { ref } from "vue";
 import SvgIcon from "@/components/svgIcon/Index.vue";
 
 export default {
@@ -34,9 +35,11 @@ export default {
     const switchAsideCollapse = () => {
       store.commit("app/SET_ASIDE_COLLAPSE");
     };
+    const username = ref(store.state.app.username);
 
     return {
       switchAsideCollapse,
+      username,
     };
   },
 };
