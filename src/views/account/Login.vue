@@ -74,8 +74,7 @@ import sha1 from "js-sha1";
 
 import { isEmail, isPassword, isCode } from "@/utils/validate";
 import { GetCode, ErrorHttp } from "@/api/common";
-import { Login, Register } from "@/api/account";
-import { getToken } from "@/utils/cookies";
+import { Register } from "@/api/account";
 
 export default {
   name: "login",
@@ -366,33 +365,6 @@ export default {
         password: sha1(data.form.password),
         code: data.form.code,
       };
-      data.submit_btn_loading = true;
-      Login(requestData)
-        .then((res) => {
-          // console.log(res);
-          message({
-            message: res.message,
-            type: "success",
-          });
-
-          // 将服务器返回的 token 保存到 state 与 cookie 中
-          store.commit("app/SET_TOKEN", res.data.token);
-          store.commit("app/SET_USERNAME", res.data.username);
-          /* 为什么要同时保到 cookie 与 state 中？
-           * 保持 cookie 中的 token 与 state 中的 token 一致，这样在刷新页面时，就可以从 cookie 中获取 token，然后将 token 保存到 state 中，这样就不会丢失 token 了。
-           */
-
-          // 登陆成功后，通过编程式导航跳转到首页
-          router.push({ path: "/console" });
-
-          // 登录成功后，重置表单
-          reset();
-        })
-        .catch((error) => {
-          reset();
-          console.log(error);
-          data.submit_btn_loading = false;
-        });
 
       store
         .dispatch("app/LoginAction", requestData)
@@ -402,11 +374,17 @@ export default {
             message: res.message,
             type: "success",
           });
+
+          // 登录成功后，跳转到首页
+          router.push({ path: "/console" });
+
+          data.submit_btn_loading = true;
           reset();
         })
         .catch((error) => {
+          data.submit_btn_loading = false;
           reset();
-          console.log(error);
+          console.log("失败：", error);
         });
     };
 

@@ -68,11 +68,16 @@ const actions = {
   //   context.commit("SET_TEXT");
   // },
 
+  // 异步登录接口
   LoginAction(context, responseData) {
     return new Promise((resolve, reject) => {
       // 调用登录接口
       Login(responseData)
         .then((response) => {
+          let data = response.data;
+          // 将 token 和 username 保存到 state 中
+          context.commit("SET_TOKEN", data.token);
+          context.commit("SET_USERNAME", data.username);
           resolve(response);
         })
         .catch((error) => {

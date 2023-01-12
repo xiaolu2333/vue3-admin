@@ -73,6 +73,19 @@ module.exports = {
     //   }
   },
   configureWebpack: {
+    // 配置目录解析别名
+    resolve: {
+      extensions: [".js", ".json", ".vue"],
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+        "@a": path.resolve(__dirname, "./src/api"),
+        "@c": path.resolve(__dirname, "./src/components"),
+        "@s": path.resolve(__dirname, "./src/store"),
+        "@v": path.resolve(__dirname, "./src/views"),
+        "@u": path.resolve(__dirname, "./src/utils"),
+      },
+    },
+
     plugins: [
       // unplugin-element-plus 0.4.1 版本这样用，代替了之前的 ElementPlus()
       require("unplugin-element-plus/webpack")({
