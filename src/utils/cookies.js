@@ -8,7 +8,7 @@ const tokenKey = "tokenAdmin";
 export function setToken(token) {
   return Cookies.set(tokenKey, token);
 }
-// 获取 token
+// 获取 token，如果没有则说明用户没有登录，返回空字符串
 export function getToken() {
   return Cookies.get(tokenKey);
 }
