@@ -20,7 +20,7 @@
               class-name="aside-menu-svg"
             ></svg-icon>
             <template #title>
-              {{ item.children[0].meta && item.children[0].meta.title }}
+              <span>{{ item.children[0].meta && item.children[0].meta.title }}</span>
             </template>
           </el-menu-item>
         </template>

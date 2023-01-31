@@ -58,7 +58,7 @@ export default {
   //-o-box-shadow: 0 0 10px rgba(0, 0, 0, 5); // Opera
   //box-shadow: 0 0 10px rgba(0, 0, 0, 5); // CSS3 标准的阴影效果
   // 调用自定义的混合指令webkit
-  @include webkit(box-shadow, 0 0 10px rgba(0, 0, 0, 5));
+  @include webkit(box-shadow, 2px 2px 2px 1px rgba(0, 0, 0, 5));
 }
 
 #layout-main {
