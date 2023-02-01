@@ -9,7 +9,18 @@
           :props="data.defaultProps"
           @node-click="handleNodeClick"
           default-expand-all
-        ></el-tree>
+        >
+          <template #default="{ node, data }">
+            <div class="custom-tree-node">
+              <span>{{ node.label }}</span>
+              <span>
+                <el-button type="primary" class="button-mini">添加子级</el-button>
+                <el-button type="primary" class="button-mini">修改</el-button>
+                <el-button type="danger" class="button-mini">删除</el-button>
+              </span>
+            </div>
+          </template>
+        </el-tree>
       </div>
     </el-col>
     <el-col :span="14">输入区</el-col>
@@ -99,5 +110,26 @@ export default {
   border: none;
   border-top: 1px solid #e9e9e9;
   margin: 10px 0;
+}
+
+.custom-tree-node {
+  /* 弹性盒布局等级 */
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 10px;
+}
+
+/* 使用穿透选择器，修改 el-tree-node__content 的高度 */
+:deep(.el-tree-node__content) {
+  height: auto;
+  button {
+    padding: 8px 12px;
+    margin: 8px 3px;
+    font-size: 12px;
+    height: auto;
+  }
 }
 </style>

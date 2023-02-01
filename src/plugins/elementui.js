@@ -22,7 +22,7 @@ import {
   ElTable,
   ElPagination,
   ElConfigProvider,
-  ElTree
+  ElTree,
 } from "element-plus";
 
 export default (app) => {
