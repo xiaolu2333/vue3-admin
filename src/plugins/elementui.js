@@ -21,6 +21,7 @@ import {
   ElSelect,
   ElTable,
   ElPagination,
+  ElConfigProvider,
 } from "element-plus";
 
 export default (app) => {
@@ -44,4 +45,5 @@ export default (app) => {
   app.use(ElSelect);
   app.use(ElTable);
   app.use(ElPagination);
+  app.use(ElConfigProvider);
 };
