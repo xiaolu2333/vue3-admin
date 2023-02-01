@@ -20,6 +20,7 @@ import {
   ElMessageBox,
   ElSelect,
   ElTable,
+  ElPagination,
 } from "element-plus";
 
 export default (app) => {
@@ -42,4 +43,5 @@ export default (app) => {
   app.use(ElMessageBox);
   app.use(ElSelect);
   app.use(ElTable);
+  app.use(ElPagination);
 };

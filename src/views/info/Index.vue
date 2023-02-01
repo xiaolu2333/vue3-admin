@@ -9,7 +9,7 @@
             class="width-160"
           >
             <el-option
-              v-for="item in data.category_options"
+              v-for="item in data.categoryOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -79,6 +79,25 @@
       </template>
     </el-table-column>
   </el-table>
+  <el-row>
+    <el-col :span="6">
+      <el-button type="danger">批量删除</el-button>
+    </el-col>
+    <el-col :span="18">
+      <el-pagination
+        :current-page="data.currentPage"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size="10"
+        :total="100"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        layout="total, sizes, prev, pager, next, jumper"
+        class="pull-right"
+        size="small"
+        background
+      ></el-pagination>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -92,8 +111,9 @@ export default {
 
     // 类别数据
     const data = reactive({
+      currentPage: 1, // 当前页码
       category: 0, // 默认选项
-      category_options: [
+      categoryOptions: [
         {
           label: "人工智能",
           value: 0,
@@ -160,7 +180,8 @@ export default {
         },
         {
           name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄",
+          address:
+            "上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄",
           date: "2016-05-04",
         },
         {
@@ -280,11 +301,20 @@ export default {
     const handleSelectionChange = (val) => {
       console.log(val);
     };
+    // 页码事件
+    const handleSizeChange = (val) => {
+      console.log(val);
+    };
+    const handleCurrentChange = (val) => {
+      console.log(val);
+    };
 
     return {
       data,
-      handleSelectionChange,
       tableLayout,
+      handleSelectionChange,
+      handleSizeChange,
+      handleCurrentChange,
     };
   },
 };
