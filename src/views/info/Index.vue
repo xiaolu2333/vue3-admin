@@ -29,7 +29,9 @@
       </el-form>
     </el-col>
     <el-col :span="6">
-      <el-button type="danger" class="pull-right">新增</el-button>
+      <router-link to="/infoDetailed" class="pull-right">
+        <el-button type="danger">新增</el-button>
+      </router-link>
     </el-col>
   </el-row>
   <el-table
@@ -102,6 +104,7 @@
 
 <script>
 import { reactive, ref } from "vue";
+import {useRouter} from "vue-router";
 
 export default {
   name: "InfoIndex",
@@ -297,6 +300,9 @@ export default {
       ],
     });
 
+    // router 实例
+    const { push } = useRouter();
+
     // 列表多选事件
     const handleSelectionChange = (val) => {
       console.log(val);
@@ -308,6 +314,16 @@ export default {
     const handleCurrentChange = (val) => {
       console.log(val);
     };
+    // 跳转到详情编辑页面
+    const handleDetailed = () => {
+      push({
+        path: "/infoDetailed",
+        // name: "edit",
+        // params: {
+        //   id: row.id,
+        // },
+      });
+    };
 
     return {
       data,
@@ -315,6 +331,7 @@ export default {
       handleSelectionChange,
       handleSizeChange,
       handleCurrentChange,
+      handleDetailed,
     };
   },
 };
@@ -332,4 +349,9 @@ export default {
 .width-180 {
   width: 180px;
 }
+
+//a {
+//  /* 取消a标签的下划线 */
+//  text-decoration: none;
+//}
 </style>

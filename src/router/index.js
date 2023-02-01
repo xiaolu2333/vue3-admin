@@ -49,7 +49,7 @@ const routes = [
     children: [
       {
         path: "/infoIndex",
-        name: "NewsIndex",
+        name: "InfoIndex",
         meta: {
           title: "信息列表",
         },
@@ -57,7 +57,7 @@ const routes = [
       },
       {
         path: "/infoCategory",
-        name: "NewsCategory",
+        name: "InfoCategory",
         meta: {
           title: "信息分类",
         },
@@ -65,7 +65,7 @@ const routes = [
       },
       {
         path: "/infoDetailed",
-        name: "NewsDetailed",
+        name: "InfoDetailed",
         meta: {
           title: "信息详情",
         },
