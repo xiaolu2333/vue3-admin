@@ -79,7 +79,7 @@
       </template>
     </el-table-column>
   </el-table>
-  <el-row>
+  <el-row class="margin-top-30">
     <el-col :span="6">
       <el-button type="danger">批量删除</el-button>
     </el-col>
