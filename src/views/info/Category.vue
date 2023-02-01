@@ -9,6 +9,7 @@
           :props="data.defaultProps"
           @node-click="handleNodeClick"
           default-expand-all
+          :expand-on-click-node="false"
         >
           <template #default="{ node, data }">
             <div class="custom-tree-node">
