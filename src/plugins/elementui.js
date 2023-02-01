@@ -19,6 +19,7 @@ import {
   ElIcon,
   ElMessageBox,
   ElSelect,
+  ElTable,
 } from "element-plus";
 
 export default (app) => {
@@ -40,4 +41,5 @@ export default (app) => {
   app.use(ElIcon);
   app.use(ElMessageBox);
   app.use(ElSelect);
+  app.use(ElTable);
 };

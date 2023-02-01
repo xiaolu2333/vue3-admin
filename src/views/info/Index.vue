@@ -32,15 +32,65 @@
       <el-button type="danger" class="pull-right">新增</el-button>
     </el-col>
   </el-row>
+  <el-table
+    ref="table"
+    border
+    :data="data.tableData"
+    style="width: 100%"
+    @selection-change="handleSelectionChange"
+  >
+    <el-table-column
+      type="selection"
+      width="40"
+      align="center"
+      header-align="center"
+    ></el-table-column>
+    <el-table-column
+      prop="name"
+      label="标题"
+      width="200"
+      align="center"
+      header-align="center"
+    ></el-table-column>
+    <el-table-column
+      prop="address"
+      label="类别"
+      :table-layout="tableLayout"
+      align="center"
+      header-align="center"
+    ></el-table-column>
+    <el-table-column
+      prop="date"
+      label="发布时间"
+      width="200"
+      align="center"
+      header-align="center"
+    ></el-table-column>
+    <el-table-column
+      prop="date"
+      label="操作"
+      width="200"
+      align="center"
+      header-align="center"
+    >
+      <template #default="scope">
+        <el-button type="primary" size="small">编辑</el-button>
+        <el-button type="danger" size="small">删除</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
 
 <script>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
 export default {
   name: "InfoIndex",
   setup(props, { root }) {
-    // 模拟接口数据
+    // 实现表格列的 fixed 布局
+    const tableLayout = ref("fixed");
+
+    // 类别数据
     const data = reactive({
       category: 0, // 默认选项
       category_options: [
@@ -101,9 +151,140 @@ export default {
           value: 13,
         },
       ],
+      // 信息列表数据
+      tableData: [
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1517 弄",
+          date: "2016-05-02",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1517 弄",
+          date: "2016-05-04",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄",
+          date: "2016-05-01",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄",
+          date: "2016-05-03",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1520 弄",
+          date: "2016-05-02",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1521 弄普陀区金沙江路 1517 弄",
+          date: "2016-05-04",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1522 弄",
+          date: "2016-05-01",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1523 弄",
+          date: "2016-05-03",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1524 弄",
+          date: "2016-05-02",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1525 弄",
+          date: "2016-05-04",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1526 弄",
+          date: "2016-05-01",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1527 弄",
+          date: "2016-05-03",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1528 弄",
+          date: "2016-05-02",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1529 弄",
+          date: "2016-05-04",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1530 弄",
+          date: "2016-05-01",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1531 弄",
+          date: "2016-05-03",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1532 弄",
+          date: "2016-05-02",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1533 弄",
+          date: "2016-05-04",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1534 弄",
+          date: "2016-05-01",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1535 弄",
+          date: "2016-05-03",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1536 弄",
+          date: "2016-05-02",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1537 弄",
+          date: "2016-05-04",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1538 弄",
+          date: "2016-05-01",
+        },
+        {
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1539 弄",
+          date: "2016-05-03",
+        },
+      ],
     });
+
+    // 列表多选事件
+    const handleSelectionChange = (val) => {
+      console.log(val);
+    };
+
     return {
       data,
+      handleSelectionChange,
+      tableLayout,
     };
   },
 };
