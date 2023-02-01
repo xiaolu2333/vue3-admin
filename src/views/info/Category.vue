@@ -1,7 +1,7 @@
 <template>
   <el-button type="primary">添加一级分类</el-button>
   <hr class="spacing-hr" />
-  <el-row>
+  <el-row :gutter="20">
     <el-col :span="10">
       <div class="category-list">
         <el-tree
@@ -24,7 +24,23 @@
         </el-tree>
       </div>
     </el-col>
-    <el-col :span="14">输入区</el-col>
+    <el-col :span="14">
+      <h4 class="column">创建分类</h4>
+      <el-form label-width="100px">
+        <el-form-item label="一级分类">
+          <el-input placeholder="请输入分类名称"></el-input>
+        </el-form-item>
+        <el-form-item label="二级分类">
+          <el-input placeholder="请输入分类名称"></el-input>
+        </el-form-item>
+        <el-form-item label="三级分类">
+          <el-input placeholder="请输入分类名称"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary">保存</el-button>
+        </el-form-item>
+      </el-form>
+    </el-col>
   </el-row>
 </template>
 
@@ -132,5 +148,21 @@ export default {
     font-size: 12px;
     height: auto;
   }
+}
+
+.column {
+  text-align: center;
+  height: 44px;
+  padding: 0 20px;
+  margin-bottom: 30px;
+  line-height: 44px;
+  border-radius: 6px;
+  background-color: #f3f3f3;
+}
+
+.el-form {
+  width: 70%;
+  /* 水平居中 */
+  margin: 0 auto;
 }
 </style>
