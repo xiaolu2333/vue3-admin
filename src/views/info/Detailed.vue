@@ -1,53 +1,55 @@
 <template>
-  <el-form ref="infoForm" label-width="150px">
+  <el-form label-width="150px">
     <el-form-item label="信息类别">
-      <el-select v-model="data.category" placeholder="请选择">
+      <el-select v-model="formData.category">
         <el-option
-            v-for="item in data.categoryOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+          v-for="item in formData.categoryOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
         ></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="信息标题">
-      <el-input v-model="data.title"></el-input>
+      <el-input v-model="formData.title"></el-input>
     </el-form-item>
     <el-form-item label="信息图片">
       <el-upload
-          class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :on-error="handleAvatarError"
-          :before-upload="beforeAvatarUpload"
+        class="avatar-uploader"
+        action="https://jsonplaceholder.typicode.com/posts/"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :on-error="handleAvatarError"
+        :before-upload="beforeAvatarUpload"
       >
-        <img v-if="data.imageURL" :src="data.imageURL" class="avatar"/>
-<!--        <span v-else class="image-upload-icon">+</span>-->
+        <img v-if="formData.imageURL" :src="formData.imageURL" class="avatar" />
+        <!--        <span v-else class="image-upload-icon">+</span>-->
         <svg-icon
-            icon-name="image-upload"
-            class="avatar-uploader-icon"
-            class-name="InfoDetailed.vue"
+          icon-name="image-upload"
+          class="avatar-uploader-icon"
+          class-name="InfoDetailed.vue"
         ></svg-icon>
       </el-upload>
     </el-form-item>
     <el-form-item label="发布日期">
       <el-date-picker
-          v-model="data.date"
-          type="datetime"
-          placeholder="选择日期和时间"
+        v-model="formData.date"
+        type="datetime"
+        placeholder="选择日期和时间"
       ></el-date-picker>
     </el-form-item>
-    <el-form-item label="信息内容"></el-form-item>
+    <el-form-item label="信息内容">
+      <div ref="editor"></div>
+    </el-form-item>
     <el-form-item>
       <el-button type="primary">保存</el-button>
-      <el-button @click="resetForm(formRef)">重置</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
-import {getCurrentInstance, reactive, ref} from "vue";
+import WangEditor from "wangeditor";
+import { getCurrentInstance, onMounted, reactive, ref } from "vue";
 
 export default {
   name: "InfoDetailed",
@@ -56,7 +58,7 @@ export default {
     const instance = getCurrentInstance();
     const message = instance.appContext.config.globalProperties.$message;
 
-    const data = reactive({
+    const formData = reactive({
       imageURL: "",
       category: "",
       title: "",
@@ -119,21 +121,26 @@ export default {
           value: 13,
         },
       ],
-    })
+    });
 
-
-    // 获取表单实例
-    const formRef = ref(null);
-    // 重置表单
-    const resetForm = ( form ) => {
-      if (!form) return;
-      form.resetFields();
-    }
+    // 获取富文本编辑器实例
+    const editor = ref();
+    let editorInstance = null;
+    // 必须在onMounted中初始化富文本编辑器
+    onMounted(() => {
+      editorInstance = new WangEditor(editor.value);
+      Object.assign(editorInstance.config, {
+        onchange() {
+          console.log("change");
+        },
+      });
+      editorInstance.create();
+    });
 
     // on-success 文件上传成功时的钩子，返回值为上传后的文件信息
     const handleAvatarSuccess = (res, file) => {
       // console.log(res, file);
-      data.imageURL = URL.createObjectURL(file.raw);
+      formData.imageURL = URL.createObjectURL(file.raw);
       message.success("上传成功!");
     };
     // on-error 文件上传失败时的钩子，返回值为上传失败的文件信息
@@ -148,7 +155,7 @@ export default {
       const isPNG = file.type === "image/png";
       const isGIF = file.type === "image/gif";
       if (!isJPG && !isPNG && !isGIF) {
-        this.$message.error('上传图片只能是 JPG/PNG/GIF 格式!');
+        this.$message.error("上传图片只能是 JPG/PNG/GIF 格式!");
         return false;
       }
       // 限制图片大小为 2MB
@@ -158,23 +165,22 @@ export default {
         return false;
       }
       // 限制图片数量 1
-      if (data.imageURL.length > 1) {
+      if (formData.imageURL.length > 1) {
         message.error("上传头像图片数量不能超过 1 个!");
         // 不要 return false，否则会阻止重新上传
         // return false;
       }
-      return isJPG || isPNG || isGIF && isLt2M;
+      return (isJPG || isPNG || isGIF) && isLt2M;
     };
 
     return {
-      formRef,
-      data,
+      formData,
+      editor,
       handleAvatarSuccess,
       handleAvatarError,
       beforeAvatarUpload,
-      resetForm,
     };
-  }
+  },
 };
 </script>
 
@@ -192,5 +198,4 @@ export default {
   align-items: center;
   font-size: 30px;
 }
-
 </style>

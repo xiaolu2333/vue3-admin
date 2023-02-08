@@ -33,7 +33,7 @@
       <router-link to="/infoDetailed" class="pull-right">
         <el-button type="danger">新增</el-button>
       </router-link>
-      <el-button type="danger" size="mini" @click="handleDetailed">编辑</el-button>
+      <el-button type="danger" size="default" @click="handleDetailed">编辑</el-button>
     </el-col>
   </el-row>
   <el-table
