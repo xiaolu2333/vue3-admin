@@ -63,6 +63,7 @@ const routes = [
         },
         component: () => import("../views/info/Category.vue"),
       },
+
       {
         path: "/infoDetailed",
         name: "InfoDetailed",

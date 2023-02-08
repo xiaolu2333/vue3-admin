@@ -28,10 +28,12 @@
         </el-form-item>
       </el-form>
     </el-col>
+
     <el-col :span="6">
       <router-link to="/infoDetailed" class="pull-right">
         <el-button type="danger">新增</el-button>
       </router-link>
+      <el-button type="danger" size="mini" @click="handleDetailed">编辑</el-button>
     </el-col>
   </el-row>
   <el-table
@@ -104,7 +106,7 @@
 
 <script>
 import { reactive, ref } from "vue";
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router";
 
 export default {
   name: "InfoIndex",
@@ -314,6 +316,7 @@ export default {
     const handleCurrentChange = (val) => {
       console.log(val);
     };
+
     // 跳转到详情编辑页面
     const handleDetailed = () => {
       push({
