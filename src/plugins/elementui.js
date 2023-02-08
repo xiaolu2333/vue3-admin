@@ -24,6 +24,7 @@ import {
   ElConfigProvider,
   ElTree,
   ElUpload,
+  ElDatePicker,
 } from "element-plus";
 
 export default (app) => {
@@ -50,4 +51,5 @@ export default (app) => {
   app.use(ElConfigProvider);
   app.use(ElTree);
   app.use(ElUpload);
+  app.use(ElDatePicker);
 };

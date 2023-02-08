@@ -31,7 +31,13 @@
         ></svg-icon>
       </el-upload>
     </el-form-item>
-    <el-form-item label="发布日期"></el-form-item>
+    <el-form-item label="发布日期">
+      <el-date-picker
+          v-model="data.date"
+          type="datetime"
+          placeholder="选择日期和时间"
+      ></el-date-picker>
+    </el-form-item>
     <el-form-item label="信息内容"></el-form-item>
     <el-form-item>
       <el-button type="primary">保存</el-button>
