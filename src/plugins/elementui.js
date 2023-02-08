@@ -23,6 +23,7 @@ import {
   ElPagination,
   ElConfigProvider,
   ElTree,
+  ElUpload,
 } from "element-plus";
 
 export default (app) => {
@@ -48,4 +49,5 @@ export default (app) => {
   app.use(ElPagination);
   app.use(ElConfigProvider);
   app.use(ElTree);
+  app.use(ElUpload);
 };
