@@ -27,3 +27,10 @@
   margin-top: -2px;
   font-size: 18px;
 }
+
+// 由于富文本编辑器的 z-index 为 10001，遮盖了编辑页面中的所有弹出层（一般2XXX），
+// 由于 z-index 值越大越顶层，所以需要将 el 组件的 z-index 值设置为 10002（大一点就行），
+// el 弹出层的元素 class="el-popper xxxx"
+.el-popper {
+  z-index: 10002 !important;
+}
