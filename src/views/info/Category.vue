@@ -25,16 +25,23 @@
       </div>
     </el-col>
     <el-col :span="14">
-      <h4 class="column">创建分类</h4>
+      <h4 class="column">{{ config.title }}</h4>
       <el-form label-width="100px">
-        <el-form-item label="一级分类">
-          <el-input placeholder="请输入分类名称"></el-input>
+        <el-form-item label="父级分类" v-if="config.subClassShow">
+          <el-input
+            v-model="data.parentClassCategory"
+            :disabled="config.parentClassDisabled"
+            placeholder="请输入分类名称"
+            style="width: 100%"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="二级分类">
-          <el-input placeholder="请输入分类名称"></el-input>
-        </el-form-item>
-        <el-form-item label="三级分类">
-          <el-input placeholder="请输入分类名称"></el-input>
+        <el-form-item label="子级分类">
+          <el-input
+            v-model="data.subClassCategory"
+            :disabled="config.subClassDisabled"
+            placeholder="请输入分类名称"
+            style="width: 100%"
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary">保存</el-button>
@@ -109,6 +116,20 @@ export default {
         children: "children", // children 属性指定子树为节点对象的某个属性值
         label: "text", // label 属性指定节点标签为节点对象的某个属性值
       },
+
+      // 信息分类编辑表单数据
+      parentClassCategory: "", // 父级分类
+      subClassCategory: "", // 子级分类
+      buttonLoading: false, // 按钮加载状态
+    });
+
+    // 信息分类编辑表单状态控制
+    const config = reactive({
+      type: "default", // 操作类型
+      title: "创建分类", // 分类标题
+      parentClassDisabled: true, // 父级分类输入是否禁用
+      subClassDisabled: true, // 子级分类输入是否禁用
+      subClassShow: true, // 子级分类输入框是否显示
     });
 
     // 节点点击事件
@@ -116,6 +137,7 @@ export default {
 
     return {
       data,
+      config,
       handleNodeClick,
     };
   },
@@ -142,6 +164,7 @@ export default {
 /* 使用穿透选择器，修改 el-tree-node__content 的高度 */
 :deep(.el-tree-node__content) {
   height: auto;
+
   button {
     padding: 8px 12px;
     margin: 8px 3px;
