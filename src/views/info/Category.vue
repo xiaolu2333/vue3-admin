@@ -25,12 +25,12 @@
       </div>
     </el-col>
     <el-col :span="14">
-      <h4 class="column">{{ config.title }}</h4>
+      <h4 class="column">{{ config[config.type].title }}</h4>
       <el-form label-width="100px">
-        <el-form-item label="父级分类" v-if="config.subClassShow">
+        <el-form-item label="父级分类" v-if="config[config.type].subClassShow">
           <el-input
             v-model="data.parentClassCategory"
-            :disabled="config.parentClassDisabled"
+            :disabled="config[config.type].parentClassDisabled"
             placeholder="请输入分类名称"
             style="width: 100%"
           ></el-input>
@@ -38,7 +38,7 @@
         <el-form-item label="子级分类">
           <el-input
             v-model="data.subClassCategory"
-            :disabled="config.subClassDisabled"
+            :disabled="config[config.type].subClassDisabled"
             placeholder="请输入分类名称"
             style="width: 100%"
           ></el-input>
@@ -126,10 +126,12 @@ export default {
     // 信息分类编辑表单状态控制
     const config = reactive({
       type: "default", // 操作类型
-      title: "创建分类", // 分类标题
-      parentClassDisabled: true, // 父级分类输入是否禁用
-      subClassDisabled: true, // 子级分类输入是否禁用
-      subClassShow: true, // 子级分类输入框是否显示
+      default: {
+        title: "创建分类", // 分类标题
+        parentClassDisabled: true, // 父级分类输入是否禁用
+        subClassDisabled: true, // 子级分类输入是否禁用
+        subClassShow: true, // 子级分类输入框是否显示
+      },
     });
 
     // 节点点击事件
