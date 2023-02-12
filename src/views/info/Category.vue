@@ -1,5 +1,10 @@
 <template>
-  <el-button type="primary">添加一级分类</el-button>
+  <el-button
+    type="primary"
+    @click="handlerCategory('addParentClass')"
+  >
+    添加一级分类
+  </el-button>
   <hr class="spacing-hr" />
   <el-row :gutter="20">
     <el-col :span="10">
@@ -27,7 +32,7 @@
     <el-col :span="14">
       <h4 class="column">{{ config[config.type].title }}</h4>
       <el-form label-width="100px">
-        <el-form-item label="父级分类" v-if="config[config.type].subClassShow">
+        <el-form-item label="父级分类">
           <el-input
             v-model="data.parentClassCategory"
             :disabled="config[config.type].parentClassDisabled"
@@ -35,7 +40,10 @@
             style="width: 100%"
           ></el-input>
         </el-form-item>
-        <el-form-item label="子级分类">
+        <el-form-item
+          label="子级分类"
+          v-if="config[config.type].subClassShow"
+        >
           <el-input
             v-model="data.subClassCategory"
             :disabled="config[config.type].subClassDisabled"
@@ -125,22 +133,38 @@ export default {
 
     // 信息分类编辑表单状态控制
     const config = reactive({
-      type: "default", // 操作类型
+      // 操作类型
+      type: "default",
+
+      // 初始化状态
       default: {
         title: "创建分类", // 分类标题
         parentClassDisabled: true, // 父级分类输入是否禁用
         subClassDisabled: true, // 子级分类输入是否禁用
         subClassShow: true, // 子级分类输入框是否显示
       },
+
+      // 添加一级分类
+      addParentClass: {
+        title: "添加一级分类",
+        parentClassDisabled: false, // 启用
+        subClassDisabled: true, // 禁用
+        subClassShow: false, // 隐藏
+      },
     });
 
     // 节点点击事件
     const handleNodeClick = () => {};
+    //
+    const handlerCategory = (type) => {
+      config.type = type;
+    };
 
     return {
       data,
       config,
       handleNodeClick,
+      handlerCategory,
     };
   },
 };
