@@ -20,7 +20,13 @@
             <div class="custom-tree-node">
               <span>{{ node.label }}</span>
               <span>
-                <el-button type="primary" class="button-mini">添加子级</el-button>
+                <el-button
+                  type="primary"
+                  class="button-mini"
+                  @click="handlerCategory('addSubClass')"
+                >
+                  添加子级
+                </el-button>
                 <el-button type="primary" class="button-mini">修改</el-button>
                 <el-button type="danger" class="button-mini">删除</el-button>
               </span>
@@ -144,12 +150,20 @@ export default {
         subClassShow: true, // 子级分类输入框是否显示
       },
 
-      // 添加一级分类
+      // 添加一级（父级）分类
       addParentClass: {
         title: "添加一级分类",
         parentClassDisabled: false, // 启用
         subClassDisabled: true, // 禁用
         subClassShow: false, // 隐藏
+      },
+
+      // 添加二级（子级）分类
+      addSubClass: {
+        title: "添加二级分类",
+        parentClassDisabled: true, // 禁用
+        subClassDisabled: false, // 启用
+        subClassShow: true, // 显示
       },
     });
 
