@@ -1,10 +1,5 @@
 <template>
-  <el-button
-    type="primary"
-    @click="handlerCategory('addParentClass')"
-  >
-    添加一级分类
-  </el-button>
+  <el-button type="primary" @click="handlerCategory('addParentClass')">添加一级分类</el-button>
   <hr class="spacing-hr" />
   <el-row :gutter="20">
     <el-col :span="10">
@@ -16,6 +11,7 @@
           default-expand-all
           :expand-on-click-node="false"
         >
+          <!-- 使用插槽语法结树构节点对象node以及节点数据data作为默认插槽 -->
           <template #default="{ node, data }">
             <div class="custom-tree-node">
               <span>{{ node.label }}</span>
@@ -23,11 +19,22 @@
                 <el-button
                   type="primary"
                   class="button-mini"
-                  @click="handlerCategory('addSubClass')"
+                  @click="handlerCategory('addSubClass', node)"
                 >
                   添加子级
                 </el-button>
-                <el-button type="primary" class="button-mini">修改</el-button>
+                <el-button
+                  type="primary"
+                  class="button-mini"
+                  @click="
+                    handlerCategory(
+                      node.level === 1 ? 'editParentClass' : 'editSubClass',
+                      node
+                    )
+                  "
+                >
+                  编辑分类
+                </el-button>
                 <el-button type="danger" class="button-mini">删除</el-button>
               </span>
             </div>
@@ -46,10 +53,7 @@
             style="width: 100%"
           ></el-input>
         </el-form-item>
-        <el-form-item
-          label="子级分类"
-          v-if="config[config.type].subClassShow"
-        >
+        <el-form-item label="子级分类" v-if="config[config.type].subClassShow">
           <el-input
             v-model="data.subClassCategory"
             :disabled="config[config.type].subClassDisabled"
@@ -165,13 +169,31 @@ export default {
         subClassDisabled: false, // 启用
         subClassShow: true, // 显示
       },
+
+      // 编辑一级（父级）分类
+      editParentClass: {
+        title: "编辑一级分类",
+        parentClassDisabled: false, // 启用
+        subClassDisabled: true, // 禁用
+        subClassShow: false, // 隐藏
+      },
+
+      // 编辑二级（子级）分类
+      editSubClass: {
+        title: "编辑二级分类",
+        parentClassDisabled: true, // 禁用
+        subClassDisabled: false, // 启用
+        subClassShow: true, // 显示
+      },
     });
 
     // 节点点击事件
     const handleNodeClick = () => {};
-    //
-    const handlerCategory = (type) => {
+
+    // 实现分类操作切换
+    const handlerCategory = (type, nodeData) => {
       config.type = type;
+      console.log(nodeData);
     };
 
     return {
